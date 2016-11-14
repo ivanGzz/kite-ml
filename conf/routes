@@ -1,1 +1,2 @@
 GET				/				controllers.HomeController.home
+GET             /mnist          examples.ExampleController.mnist
