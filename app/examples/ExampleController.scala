@@ -16,4 +16,9 @@ object ExampleController extends Controller {
         }.map(result => Ok(result))
     }
 
+    def sentiment(text: String) = Action {
+        Ok(SentimentAnalyzer.mainSentiment(text).toString)
+    }
+
+
 }

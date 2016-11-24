@@ -1,2 +1,3 @@
 GET				/				controllers.HomeController.home
 GET             /mnist          examples.ExampleController.mnist
+GET             /sentiment      examples.ExampleController.sentiment(text: String)
