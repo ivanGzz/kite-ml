@@ -1,3 +1,73 @@
-GET				/				controllers.HomeController.home
-GET             /mnist          examples.ExampleController.mnist
-GET             /sentiment      examples.ExampleController.sentiment(text: String)
+GET     /				        controllers.HomeController.home
+GET     /mnist                  examples.ExampleController.mnist
+GET     /sentiment              examples.ExampleController.sentiment(text: String)
+
+GET     /assessment             controllers.AssessmentController.get
+POST    /assessment             controllers.AssessmentController.post
+PUT     /assessment             controllers.AssessmentController.put
+DELETE  /assessment             controllers.AssessmentController.delete
+
+GET     /class-project          controllers.ClassProjectController.get
+POST    /class-project          controllers.ClassProjectController.post
+PUT     /class-project          controllers.ClassProjectController.put
+DELETE  /class-project          controllers.ClassProjectController.delete
+
+GET     /comment                controllers.CommentController.get
+POST    /comment                controllers.CommentController.post
+PUT     /comment                controllers.CommentController.put
+DELETE  /comment                controllers.CommentController.delete
+
+GET     /group-class            controllers.GroupClassController.get
+POST    /group-class            controllers.GroupClassController.post
+PUT     /group-class            controllers.GroupClassController.put
+DELETE  /group-class            controllers.GroupClassController.delete
+
+GET     /group-class-teacher    controllers.GroupClassTeacherController.get
+POST    /group-class-teacher    controllers.GroupClassTeacherController.post
+PUT     /group-class-teacher    controllers.GroupClassTeacherController.put
+DELETE  /group-class-teacher    controllers.GroupClassTeacherController.delete
+
+GET     /group-student          controllers.GroupStudentController.get
+POST    /group_student          controllers.GroupStudentController.post
+PUT     /group-student          controllers.GroupStudentController.put
+DELETE  /group-student          controllers.GroupStudentController.delete
+
+GET     /like                   controllers.LikeController.get
+POST    /like                   controllers.LikeController.post
+PUT     /like                   controllers.LikeController.put
+DELETE  /like                   controllers.LikeController.delete
+
+GET     /post                   controllers.PostController.get
+POST    /post                   controllers.PostController.post
+PUT     /post                   controllers.PostController.put
+DELETE  /post                   controllers.PostController.delete
+
+GET     /product                controllers.ProductController.get
+POST    /product                controllers.ProductController.post
+PUT     /product                controllers.ProductController.put
+DELETE  /product                controllers.ProductController.delete
+
+GET     /product-skill          controllers.ProductSkillController.get
+POST    /product-skill          controllers.ProductSkillController.post
+PUT     /product-skill          controllers.ProductSkillController.put
+DELETE  /product-skill          controllers.ProductSkillController.delete
+
+GET     /school                 controllers.SchoolController.get
+POST    /school                 controllers.SchoolController.post
+PUT     /school                 controllers.SchoolController.put
+DELETE  /school                 controllers.SchoolController.delete
+
+GET     /subject                controllers.SubjectController.get
+POST    /subject                controllers.SubjectController.post
+PUT     /subject                controllers.SubjectController.put
+DELETE  /subject                controllers.SubjectController.delete
+
+GET     /team                   controllers.TeamController.get
+POST    /team                   controllers.TeamController.post
+PUT     /team                   controllers.TeamController.put
+DELETE  /team                   controllers.TeamController.delete
+
+GET     /user                   controllers.UserController.get
+POST    /user                   controllers.UserController.post
+PUT     /user                   controllers.UserController.put
+DELETE  /user                   controllers.UserController.delete
