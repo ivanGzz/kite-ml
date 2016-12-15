@@ -17,6 +17,11 @@ POST    /comment                controllers.CommentController.post
 PUT     /comment                controllers.CommentController.put
 DELETE  /comment                controllers.CommentController.delete
 
+GET     /course                 controllers.CourseController.get
+POST    /course                 controllers.CourseController.post
+PUT     /course                 controllers.CourseController.put
+DELETE  /course                 controllers.CourseController.delete
+
 GET     /group-class            controllers.GroupClassController.get
 POST    /group-class            controllers.GroupClassController.post
 PUT     /group-class            controllers.GroupClassController.put
@@ -52,20 +57,65 @@ POST    /product-skill          controllers.ProductSkillController.post
 PUT     /product-skill          controllers.ProductSkillController.put
 DELETE  /product-skill          controllers.ProductSkillController.delete
 
+GET     /project                controllers.ProjectController.get
+POST    /project                controllers.ProjectController.post
+PUT     /project                controllers.ProjectController.put
+DELETE  /project                controllers.ProjectController.delete
+
+GET     /project-type           controllers.ProjectTypeController.get
+POST    /project-type           controllers.ProjectTypeController.post
+PUT     /project-type           controllers.ProjectTypeController.put
+DELETE  /project-type           controllers.ProjectTypeController.delete
+
+GET     /role                   controllers.RoleController.get
+POST    /role                   controllers.RoleController.post
+PUT     /role                   controllers.RoleController.post
+DELETE  /role                   controllers.RoleController.delete
+
+GET     /rubric                 controllers.RubricController.get
+POST    /rubric                 controllers.RubricController.post
+PUT     /rubric                 controllers.RubricController.put
+DELETE  /rubric                 controllers.RubricController.delete
+
+GET     /rubric-dimension       controllers.RubricDimensionController.get
+POST    /rubric-dimension       controllers.RubricDimensionController.post
+PUT     /rubric-dimension       controllers.RubricDimensionController.put
+DELETE  /rubric-dimension       controllers.RubricDimensionController.delete
+
 GET     /school                 controllers.SchoolController.get
 POST    /school                 controllers.SchoolController.post
 PUT     /school                 controllers.SchoolController.put
 DELETE  /school                 controllers.SchoolController.delete
+
+GET     /skill                  controllers.SkillController.get
+POST    /skill                  controllers.SkillController.post
+PUT     /skill                  controllers.SkillController.put
+DELETE  /skill                  controllers.SkillController.delete
 
 GET     /subject                controllers.SubjectController.get
 POST    /subject                controllers.SubjectController.post
 PUT     /subject                controllers.SubjectController.put
 DELETE  /subject                controllers.SubjectController.delete
 
+GET     /sub-topic              controllers.SubTopicController.get
+POST    /sub-topic              controllers.SubTopicController.post
+PUT     /sub-topic              controllers.SubTopicController.put
+DELETE  /sub-topic              controllers.SubTopicController.delete
+
 GET     /team                   controllers.TeamController.get
 POST    /team                   controllers.TeamController.post
 PUT     /team                   controllers.TeamController.put
 DELETE  /team                   controllers.TeamController.delete
+
+GET     /team-member            controllers.TeamMemberController.get
+POST    /team-member            controllers.TeamMemberController.post
+PUT     /team-member            controllers.TeamMemberController.put
+DELETE  /team-member            controllers.TeamMemberController.delete
+
+GET     /topic                  controllers.TopicController.get
+POST    /topic                  controllers.TopicController.post
+PUT     /topic                  controllers.TopicController.put
+DELETE  /topic                  controllers.TopicController.delete
 
 GET     /user                   controllers.UserController.get
 POST    /user                   controllers.UserController.post
