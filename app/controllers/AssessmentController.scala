@@ -1,6 +1,8 @@
 package controllers
 
+import models.{Assessment, AuditLog}
 import play.api.mvc.{Action, Controller}
+import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
  * Created by nigonzalez on 12/13/16.
@@ -18,19 +20,23 @@ import play.api.mvc.{Action, Controller}
 object AssessmentController extends Controller {
 
     def get = Action {
-        Ok(NOT_IMPLEMENTED)
+        Ok
     }
 
-    def post = Action {
-        Ok(NOT_IMPLEMENTED)
+    def post = Action.async { implicit request =>
+        AuditLog.addToLog(request.uri, request.body.toString).flatMap(res =>
+            Assessment.addToAssessment(1, 0, 0, 0, 0, 0, "").map(res =>
+                Ok("Assessment added")
+            )
+        )
     }
 
     def put = Action {
-        Ok(NOT_IMPLEMENTED)
+        Ok
     }
 
     def delete = Action {
-        Ok(NOT_IMPLEMENTED)
+        Ok
     }
 
 }

@@ -1,5 +1,7 @@
 package controllers
 
+import play.api.mvc.{Controller, Action}
+
 /**
  * Created by nigonzalez on 12/13/16.
  *
@@ -13,6 +15,22 @@ package controllers
  * likes_count: long
  *
  */
-object TeamController {
+object TeamController extends Controller {
+
+    def get = Action {
+        Ok
+    }
+
+    def post = Action {
+        Ok
+    }
+
+    def put = Action {
+        Ok
+    }
+
+    def delete = Action {
+        Ok
+    }
 
 }

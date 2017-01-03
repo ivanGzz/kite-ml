@@ -14,19 +14,19 @@ import play.api.mvc.{Action, Controller}
 object SubjectController extends Controller {
 
     def get = Action {
-        Ok(NOT_IMPLEMENTED)
+        Ok
     }
 
     def post = Action {
-        Ok(NOT_IMPLEMENTED)
+        Ok
     }
 
     def put = Action {
-        Ok(NOT_IMPLEMENTED)
+        Ok
     }
 
     def delete = Action {
-        Ok(NOT_IMPLEMENTED)
+        Ok
     }
 
 }
