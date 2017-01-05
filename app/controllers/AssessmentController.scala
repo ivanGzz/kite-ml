@@ -1,8 +1,10 @@
 package controllers
 
 import models.{Assessment, AuditLog}
+import play.api.libs.json.{JsError, JsSuccess, Json}
 import play.api.mvc.{Action, Controller}
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 /**
  * Created by nigonzalez on 12/13/16.
@@ -19,16 +21,25 @@ import scala.concurrent.ExecutionContext.Implicits.global
  */
 object AssessmentController extends Controller {
 
-    def get = Action {
-        Ok
+    implicit val assessmentRead = Json.reads[Assessment]
+    implicit val assessmentWrite = Json.writes[Assessment]
+
+    def get = Action.async {
+        Assessment.getAssessments.map(res => Ok(Json.toJson(res)))
     }
 
-    def post = Action.async { implicit request =>
-        AuditLog.addToLog(request.uri, request.body.toString).flatMap(res =>
-            Assessment.addToAssessment(1, 0, 0, 0, 0, 0, "").map(res =>
-                Ok("Assessment added")
-            )
-        )
+    def post = Action.async(parse.json) { implicit request =>
+        request.body.validate match {
+            case JsSuccess(assessment, _) =>
+                AuditLog.addToLog(request.uri, assessment.toString).flatMap(res =>
+                    Assessment.addToAssessment(assessment).map(res =>
+                        Ok("Assessment added")
+                    )
+                )
+            case JsError(errors) => {
+                Future(BadRequest)
+            }
+        }
     }
 
     def put = Action {

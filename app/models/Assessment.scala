@@ -13,23 +13,23 @@ import slick.driver.PostgresDriver.api._
 
 case class Assessment(id: Long,
                       score: Long,
-                      teamId: Long,
-                      rubricId: Long,
-                      rubricDimensionId: Long,
-                      userId: Long,
-                      userType: String)
+                      team_id: Long,
+                      rubric_id: Long,
+                      rubric_dimension_id: Long,
+                      user_id: Long,
+                      user_type: String)
 
 class AssessmentTableDef(tag: Tag) extends Table[Assessment](tag, "assessment") {
 
     def id = column[Long]("id", O.PrimaryKey)
     def score = column[Long]("score")
-    def teamId = column[Long]("team_id")
-    def rubricId = column[Long]("rubric_id")
-    def rubricDimensionId = column[Long]("rubric_dimension_id")
-    def userId = column[Long]("user_id")
-    def userType = column[String]("user_type")
+    def team_id = column[Long]("team_id")
+    def rubric_id = column[Long]("rubric_id")
+    def rubric_dimension_id = column[Long]("rubric_dimension_id")
+    def user_id = column[Long]("user_id")
+    def user_type = column[String]("user_type")
 
-    override def * = (id, score, teamId, rubricId, rubricDimensionId, userId, userType) <> ((Assessment.apply _).tupled, Assessment.unapply)
+    override def * = (id, score, team_id, rubric_id, rubric_dimension_id, user_id, user_type) <> ((Assessment.apply _).tupled, Assessment.unapply)
 
 }
 
@@ -39,9 +39,8 @@ object Assessment {
 
     val assessments = TableQuery[AssessmentTableDef]
 
-    def addToAssessment(id: Long, score: Long, teamId: Long, rubricId: Long, rubricDimensionId: Long, userId: Long, userType: String): Future[Assessment] = {
-        val assessment = Assessment(id, score, teamId, rubricId, rubricDimensionId, userId, userType)
-        dbConfig.db.run(assessments += assessment).map(res => assessment)
-    }
+    def getAssessments: Future[Seq[Assessment]] = dbConfig.db.run(assessments.result)
+
+    def addToAssessment(assessment: Assessment): Future[Boolean] = dbConfig.db.run(assessments += assessment).map(res => true)
 
 }
