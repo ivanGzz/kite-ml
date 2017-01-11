@@ -86,8 +86,121 @@ CREATE TABLE product (
     points INTEGER
 );
 
+CREATE TABLE product_skill (
+    id INTEGER PRIMARY KEY,
+    product_id INTEGER,
+    skill_id INTEGER,
+    value_ INTEGER
+);
+
+CREATE TABLE project (
+    id INTEGER PRIMARY KEY,
+    author_id INTEGER,
+    project_type_id INTEGER,
+    parent_project_id INTEGER,
+    teams_count INTEGER,
+    team_member_count INTEGER
+);
+
+CREATE TABLE project_type (
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    description TEXT,
+    code TEXT
+);
+
+CREATE TABLE role (
+    id INTEGER PRIMARY KEY,
+    name TEXT
+);
+
+CREATE TABLE rubric (
+    id INTEGER PRIMARY KEY,
+    code TEXT,
+    author_id INTEGER
+);
+
+CREATE TABLE rubric_dimension (
+    id INTEGER PRIMARY KEY,
+    code TEXT,
+    min_score INTEGER,
+    medium_score INTEGER,
+    max_score INTEGER,
+    rubric_id INTEGER,
+    author_id INTEGER
+);
+
+CREATE TABLE school (
+    id INTEGER PRIMARY KEY,
+    town TEXT,
+    state TEXT,
+    country TEXT,
+    active BOOLEAN
+);
+
+CREATE TABLE skill (
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    code TEXT
+);
+
+CREATE TABLE subject (
+    id INTEGER PRIMARY KEY,
+    course_id INTEGER
+);
+
+CREATE TABLE sub_topic (
+    id INTEGER PRIMARY KEY,
+    code TEXT,
+    topic_id INTEGER
+);
+
+CREATE TABLE team (
+    id INTEGER PRIMARY KEY,
+    published BOOLEAN,
+    class_project_id INTEGER,
+    project_id INTEGER,
+    avg_score DOUBLE,
+    views_count INTEGER,
+    likes_count INTEGER
+);
+
+CREATE TABLE team_member (
+    id INTEGER PRIMARY KEY,
+    team_id INTEGER,
+    user_id INTEGER,
+    project_id INTEGER,
+    role TEXT
+);
+
+CREATE TABLE topic (
+    id INTEGER PRIMARY KEY,
+    code TEXT,
+    subject_id INTEGER
+);
+
+CREATE TABLE user (
+    id INTEGER PRIMARY KEY,
+    birthday DATE,
+    active BOOLEAN,
+    role_id INTEGER
+);
+
 # --- !Downs
 
+DROP TABLE topic;
+DROP TABLE team_member;
+DROP TABLE team;
+DROP TABLE sub_topic;
+DROP TABLE subject;
+DROP TABLE skill;
+DROP TABLE school;
+DROP TABLE rubric_dimension;
+DROP TABLE rubric;
+DROP TABLE role;
+DROP TABLE project_type;
+DROP TABLE project;
+DROP TABLE product_skill;
 DROP TABLE product;
 DROP TABLE post;
 DROP TABLE likes;
