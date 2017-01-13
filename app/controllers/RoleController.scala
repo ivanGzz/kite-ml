@@ -18,7 +18,7 @@ import scala.concurrent.Future
 object RoleController extends Controller {
 
     implicit val roleRead = Json.reads[Role]
-    implicit val roleWrite = Json.reads[Role]
+    implicit val roleWrite = Json.writes[Role]
 
     def get = Action.async {
         Role.getRoles.map(res => Ok(Json.toJson(res)))
@@ -27,7 +27,7 @@ object RoleController extends Controller {
     def post = Action.async(parse.json) { implicit request =>
         request.body.validate match {
             case JsSuccess(role, _) =>
-                AuditLog.addToLog(request.uri, role).flatMap(res =>
+                AuditLog.addToLog(request.uri, role.toString).flatMap(res =>
                     Role.addToRoles(role).map(res =>
                         Ok("Role added")
                     )

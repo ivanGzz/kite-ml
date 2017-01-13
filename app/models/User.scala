@@ -15,7 +15,7 @@ import slick.driver.PostgresDriver.api._
 
 case class User(id: Long, birthday: Date, active: Boolean, role_id: Long)
 
-class UserTableDef(tag: Tag) extends Table[User](tag, "user") {
+class UserTableDef(tag: Tag) extends Table[User](tag, "users") {
 
     def id = column[Long]("id", O.PrimaryKey)
     def birthday = column[Date]("birthday")

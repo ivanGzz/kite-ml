@@ -160,7 +160,7 @@ CREATE TABLE team (
     published BOOLEAN,
     class_project_id INTEGER,
     project_id INTEGER,
-    avg_score DOUBLE,
+    avg_score REAL,
     views_count INTEGER,
     likes_count INTEGER
 );
@@ -179,15 +179,16 @@ CREATE TABLE topic (
     subject_id INTEGER
 );
 
-CREATE TABLE user (
+CREATE TABLE users (
     id INTEGER PRIMARY KEY,
-    birthday DATE,
+    birthday TIMESTAMP,
     active BOOLEAN,
     role_id INTEGER
 );
 
 # --- !Downs
 
+DROP TABLE users;
 DROP TABLE topic;
 DROP TABLE team_member;
 DROP TABLE team;

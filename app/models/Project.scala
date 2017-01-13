@@ -22,11 +22,12 @@ class ProjectTableDef(tag: Tag) extends Table[Project](tag, "project") {
 
     def id = column[Long]("id", O.PrimaryKey)
     def author_id = column[Long]("author_id")
+    def project_type_id = column[Long]("project_type_id")
     def parent_project_id = column[Long]("parent_project_id")
     def teams_count = column[Long]("teams_count")
     def team_member_count = column[Long]("team_member_count")
 
-    override def * = (id, author_id, parent_project_id, teams_count, team_member_count) <> ((Project.apply _).tupled, Project.unapply)
+    override def * = (id, author_id, project_type_id, parent_project_id, teams_count, team_member_count) <> ((Project.apply _).tupled, Project.unapply)
 
 }
 

@@ -22,10 +22,10 @@ class CommentTableDef(tag: Tag) extends Table[Comment](tag, "comment") {
 
     def id = column[Long]("id", O.PrimaryKey)
     def commentable_id = column[Long]("commentable_id")
-    def commentable_type = column[Long]("commentable_type")
+    def commentable_type = column[String]("commentable_type")
     def user_id = column[Long]("user_id")
-    def title = column[Long]("title")
-    def body = column[Long]("body")
+    def title = column[String]("title")
+    def body = column[String]("body")
 
     override def * = (id, commentable_id, commentable_type, user_id, title, body) <> ((Comment.apply _).tupled, Comment.unapply)
 

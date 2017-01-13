@@ -21,10 +21,11 @@ class SchoolTableDef(tag: Tag) extends Table[School](tag, "school") {
 
     def id = column[Long]("id", O.PrimaryKey)
     def town = column[String]("town")
-    def state = column[String]("country")
+    def state = column[String]("state")
+    def country = column[String]("country")
     def active = column[Boolean]("active")
 
-    override def * = (id, town, state, active) <> ((School.apply _).tupled, School.unapply)
+    override def * = (id, town, state, country, active) <> ((School.apply _).tupled, School.unapply)
 
 }
 
