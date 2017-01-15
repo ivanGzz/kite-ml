@@ -11,7 +11,9 @@ import slick.driver.PostgresDriver.api._
  * Created by nigonzalez on 1/9/17.
  */
 
-case class Skill(id: Long, name: String, code: String)
+case class Skill(id: Long,
+                 name: String,
+                 code: String)
 
 class SkillTableDef(tag: Tag) extends Table[Skill](tag, "skill") {
 

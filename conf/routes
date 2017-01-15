@@ -33,7 +33,7 @@ PUT     /group-class-teacher    controllers.GroupClassTeacherController.put
 DELETE  /group-class-teacher    controllers.GroupClassTeacherController.delete
 
 GET     /group-student          controllers.GroupStudentController.get
-POST    /group_student          controllers.GroupStudentController.post
+POST    /group-student          controllers.GroupStudentController.post
 PUT     /group-student          controllers.GroupStudentController.put
 DELETE  /group-student          controllers.GroupStudentController.delete
 

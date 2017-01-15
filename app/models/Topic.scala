@@ -11,7 +11,9 @@ import slick.driver.PostgresDriver.api._
  * Created by nigonzalez on 1/10/17.
  */
 
-case class Topic(id: Long, code: String, subject_id: Long)
+case class Topic(id: Long,
+                 code: String,
+                 subject_id: Long)
 
 class TopicTableDef(tag: Tag) extends Table[Topic](tag, "topic") {
 

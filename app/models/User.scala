@@ -13,7 +13,10 @@ import slick.driver.PostgresDriver.api._
  * Created by nigonzalez on 1/10/17.
  */
 
-case class User(id: Long, birthday: Date, active: Boolean, role_id: Long)
+case class User(id: Long,
+                birthday: Date,
+                active: Boolean,
+                role_id: Long)
 
 class UserTableDef(tag: Tag) extends Table[User](tag, "users") {
 

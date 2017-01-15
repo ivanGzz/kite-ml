@@ -18,7 +18,7 @@ case class GroupClass(id: Long,
 class GroupClassTableDef(tag: Tag) extends Table[GroupClass](tag, "group_class") {
 
     def id = column[Long]("id", O.PrimaryKey)
-    def group_id = column[Long]("group_class")
+    def group_id = column[Long]("group_id")
     def course_id = column[Long]("course_id")
 
     override def * = (id, group_id, course_id) <> ((GroupClass.apply _).tupled, GroupClass.unapply)
