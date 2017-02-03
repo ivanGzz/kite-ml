@@ -1,6 +1,7 @@
 GET     /				        controllers.HomeController.home
 GET     /mnist                  examples.ExampleController.mnist
 GET     /sentiment              examples.ExampleController.sentiment(text: String)
+POST    /sentence               examples.ExampleController.parseSentence
 
 GET     /assessment             controllers.AssessmentController.get
 POST    /assessment             controllers.AssessmentController.post

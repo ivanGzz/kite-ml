@@ -1,8 +1,9 @@
 package examples
 
 import models.AuditLog
-import play.api.mvc.{Action, Controller}
+import play.api.libs.json.{JsError, JsSuccess, Json}
 import play.api.libs.concurrent.Execution.Implicits._
+import play.api.mvc.{Action, Controller}
 
 import scala.concurrent.Future
 
@@ -10,6 +11,10 @@ import scala.concurrent.Future
  * Created by nigonzalez on 11/2/16.
  */
 object ExampleController extends Controller {
+
+    case class ParseRequest(sentence: String)
+
+    implicit val sentenceRead = Json.reads[ParseRequest]
 
     def mnist = Action.async {
         Future {
@@ -23,5 +28,14 @@ object ExampleController extends Controller {
       )
     }
 
+    def parseSentence = Action(parse.json) { implicit request =>
+      request.body.validate match {
+          case JsSuccess(sentence, _) => {
+              SentenceAnalyzer.parseSentence2(sentence.sentence)
+              Ok
+          }
+          case JsError(errors) => BadRequest
+      }
+    }
 
 }
