@@ -11,6 +11,8 @@ object SentenceAnalyzer {
         val parser = LexicalizedParser.loadModel()
         val parse = parser.parse(sentence)
         parse.pennPrint()
+        val label = parse.label().value()
+        println(label)
         ""
     }
 
