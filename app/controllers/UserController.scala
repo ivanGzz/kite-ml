@@ -1,6 +1,6 @@
 package controllers
 
-import models.{AuditLog, User}
+import models.{Users, AuditLog, User}
 import play.api.libs.json.{JsError, JsSuccess, Json}
 import play.api.mvc.{Action, Controller}
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -23,14 +23,14 @@ object UserController extends Controller {
     implicit val userWrite = Json.writes[User]
 
     def get = Action.async {
-        User.getUsers.map(res => Ok(Json.toJson(res)))
+        Users.getUsers.map(res => Ok(Json.toJson(res)))
     }
 
     def post = Action.async(parse.json) { implicit request =>
         request.body.validate match {
             case JsSuccess(user, _) =>
                 AuditLog.addToLog(request.uri, user.toString).flatMap(res =>
-                    User.addToUsers(user)
+                    Users.addToUsers(user)
                 ).map(res =>
                     Ok("User added")
                 )

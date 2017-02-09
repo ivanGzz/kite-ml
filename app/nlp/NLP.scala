@@ -12,7 +12,7 @@ object NLP {
     val spanishParser = LexicalizedParser.loadModel("edu/stanford/nlp/models/lexparser/spanishPCFG.ser.gz")
 
     def detectInquiry(sentence: String): Boolean = {
-        val tree = spanishParser.parse(sentence)
+        val tree = englishParser.parse(sentence)
         tree.pennPrint()
         if (tree.numChildren() > 0) {
             val clause = tree.getChild(0)

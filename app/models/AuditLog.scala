@@ -14,28 +14,29 @@ import java.sql.Date
  * Created by nigonzalez on 12/3/16.
  */
 
-case class AuditLog(id: Long, url: String, payload: String, created: Date)
+case class AuditLog(id: Long, url: String, verb: String, payload: String, created: Date)
 
 class AuditLogTableDef(tag: Tag) extends Table[AuditLog](tag, "audit_log") {
 
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
     def url = column[String]("url")
+    def verb = column[String]("verb")
     def payload = column[String]("payload")
     def created = column[Date]("created")
 
-    override def * = (id, url, payload, created) <> ((AuditLog.apply _).tupled, AuditLog.unapply)
+    override def * = (id, url, verb, payload, created) <> (AuditLog.tupled, AuditLog.unapply)
 
 }
 
-object AuditLog {
+object AuditLogs {
 
     val dbConfig = DatabaseConfigProvider.get[JdbcProfile](Play.current)
 
     val auditLogs = TableQuery[AuditLogTableDef]
 
-    def addToLog(url: String, payload: String): Future[AuditLog] = {
+    def addToLog(url: String, verb: String, payload: String): Future[AuditLog] = {
         val today = new util.Date()
-        val log = AuditLog(0L, url, payload, new Date(today.getTime))
+        val log = AuditLog(0L, url, verb, payload, new Date(today.getTime))
         dbConfig.db.run(auditLogs += log).map(res => log)
     }
 

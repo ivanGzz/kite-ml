@@ -1,7 +1,5 @@
 package models
 
-import java.sql.Date
-
 import play.api.Play
 import play.api.db.slick.DatabaseConfigProvider
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -13,23 +11,17 @@ import slick.driver.PostgresDriver.api._
  * Created by nigonzalez on 1/10/17.
  */
 
-case class User(id: Long,
-                birthday: Date,
-                active: Boolean,
-                role_id: Long)
+case class User(id: Long)
 
 class UserTableDef(tag: Tag) extends Table[User](tag, "users") {
 
     def id = column[Long]("id", O.PrimaryKey)
-    def birthday = column[Date]("birthday")
-    def active = column[Boolean]("active")
-    def role_id = column[Long]("role_id")
 
-    override def * = (id, birthday, active, role_id) <> ((User.apply _).tupled, User.unapply)
+    override def * = id <> (User.apply, User.unapply)
 
 }
 
-object User {
+object Users {
 
     val dbConfig = DatabaseConfigProvider.get[JdbcProfile](Play.current)
 
