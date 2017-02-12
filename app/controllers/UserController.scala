@@ -1,6 +1,6 @@
 package controllers
 
-import models.{Users, AuditLog, User}
+import models.{AuditLogs, Users, User}
 import play.api.libs.json.{JsError, JsSuccess, Json}
 import play.api.mvc.{Action, Controller}
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -8,14 +8,6 @@ import scala.concurrent.Future
 
 /**
  * Created by nigonzalez on 12/6/16.
- *
- * Model:
- *
- * id: long
- * birthday: Date
- * active: Boolean
- * role_id: long (Points to Role)
- *
  */
 object UserController extends Controller {
 
@@ -29,7 +21,7 @@ object UserController extends Controller {
     def post = Action.async(parse.json) { implicit request =>
         request.body.validate match {
             case JsSuccess(user, _) =>
-                AuditLog.addToLog(request.uri, user.toString).flatMap(res =>
+                AuditLogs.addToLog(request.uri, "POST", user.toString).flatMap(res =>
                     Users.addToUsers(user)
                 ).map(res =>
                     Ok("User added")

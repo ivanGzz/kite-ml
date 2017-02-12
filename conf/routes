@@ -8,3 +8,5 @@ GET     /user                   controllers.UserController.get
 POST    /user                   controllers.UserController.post
 PUT     /user                   controllers.UserController.put
 DELETE  /user                   controllers.UserController.delete
+
+POST    /user-competency        controllers.UserCompetencyController.post

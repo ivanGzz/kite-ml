@@ -20,7 +20,7 @@ CREATE TABLE user_competency (
     id SERIAL PRIMARY KEY,
     user_id INTEGER,
     chat_room_id INTEGER,
-    competencies INTEGER[]
+    competencies TEXT
 )
 
 # --- !Downs
