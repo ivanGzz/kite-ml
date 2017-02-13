@@ -10,3 +10,4 @@ PUT     /user                   controllers.UserController.put
 DELETE  /user                   controllers.UserController.delete
 
 POST    /user-competency        controllers.UserCompetencyController.post
+PUT     /user-competency        controllers.UserCompetencyController.put

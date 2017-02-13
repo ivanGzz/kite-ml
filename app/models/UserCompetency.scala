@@ -11,23 +11,14 @@ import slick.driver.PostgresDriver.api._
  * Created by nigonzalez on 2/9/17.
  */
 
-object ColumnDataMapper {
-
-    implicit val setStringColumnType = MappedColumnType.base[List[Int], String](
-        tags => tags.mkString(","),
-        tagsString => tagsString.split(",").map(_.toInt).toList
-    )
-
-}
-
-case class UserCompetency(id: Long, user_id: Long, chat_room_id: Long, competencies: List[Integer])
+case class UserCompetency(id: Long, user_id: Long, chat_room_id: Long, competencies: String)
 
 class UserCompetencyTableDef(tag: Tag) extends Table[UserCompetency](tag, "user_competency") {
 
     def id = column[Long]("id", O.PrimaryKey)
     def user_id = column[Long]("user_id")
     def chat_room_id = column[Long]("chat_room_id")
-    def competencies = column[List[Int]]("competencies")(ColumnDataMapper.setStringColumnType)
+    def competencies = column[String]("competencies")
 
     override def * = (id, user_id, chat_room_id, competencies) <> (UserCompetency.tupled, UserCompetency.unapply)
 
@@ -51,6 +42,16 @@ object UserCompetencies {
         userCompetencies += userCompetency
     ).map(
         res => userCompetency.id
+    )
+
+    def updateUserCompetencies(userId: Long, chatRoomId: Long, competencies: String): Future[Boolean] = dbConfig.db.run(
+        userCompetencies.filter(
+            x => x.user_id === userId && x.chat_room_id === chatRoomId
+        ).map(
+            _.competencies
+        ).update(competencies)
+    ).map(
+        res => true
     )
 
 }

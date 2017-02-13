@@ -1,6 +1,6 @@
 package examples
 
-import models.AuditLog
+import models.{AuditLogs, AuditLog}
 import play.api.libs.json.{JsError, JsSuccess, Json}
 import play.api.libs.concurrent.Execution.Implicits._
 import play.api.mvc.{Action, Controller}
@@ -23,7 +23,7 @@ object ExampleController extends Controller {
     }
 
     def sentiment(text: String) = Action.async { implicit request =>
-      AuditLog.addToLog(request.uri, "{payload: payload}").map(res =>
+      AuditLogs.addToLog(request.uri, "POST", "{payload: payload}").map(res =>
           Ok(SentimentAnalyzer.mainSentiment(text).toString)
       )
     }

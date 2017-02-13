@@ -11,18 +11,32 @@ import scala.concurrent.Future
  */
 object UserCompetencyController extends Controller {
 
-    case class UserCompetencyRequest(user_id: Long, chat_room_id: Long)
+    case class UCPostRequest(user_id: Long, chat_room_id: Long)
+    case class UCPutRequest(user_id: Long, chat_room_id: Long, competencies: List[Int])
 
-    implicit val UserCompetencyRead = Json.reads[UserCompetencyRequest]
+    implicit val uCPostRequestRead = Json.reads[UCPostRequest]
+    implicit val UCPutRequestRead = Json.reads[UCPutRequest]
 
     def post = Action.async(parse.json) { implicit request =>
-        request.body.validate match {
-            case JsSuccess(userCompetencyRequest, _) =>
-                AuditLogs.addToLog(request.uri, "POST", userCompetencyRequest.toString).flatMap(res => {
-                    val userCompetency = UserCompetency(0, userCompetencyRequest.user_id, userCompetencyRequest.chat_room_id, List())
+        request.body.validate[UCPostRequest] match {
+            case JsSuccess(postRequest, _) =>
+                AuditLogs.addToLog(request.uri, "POST", postRequest.toString).flatMap(res => {
+                    val userCompetency = UserCompetency(0, postRequest.user_id, postRequest.chat_room_id, "")
                     UserCompetencies.addToUserCompetencies(userCompetency)
                 }).map(res =>
-                    Ok(res)
+                    Ok(res.toString)
+                )
+            case JsError(errors) => Future(BadRequest)
+        }
+    }
+
+    def put = Action.async(parse.json) { implicit request =>
+        request.body.validate[UCPutRequest] match {
+            case JsSuccess(putRequest, _) =>
+                AuditLogs.addToLog(request.uri, "PUT", putRequest.toString).flatMap(res => {
+                    UserCompetencies.updateUserCompetencies(putRequest.user_id, putRequest.chat_room_id, putRequest.competencies.mkString(","))
+                }).map(res =>
+                    Ok
                 )
             case JsError(errors) => Future(BadRequest)
         }
