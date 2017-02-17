@@ -6,7 +6,8 @@ import edu.stanford.nlp.ling.CoreAnnotations
 import edu.stanford.nlp.neural.rnn.RNNCoreAnnotations
 import edu.stanford.nlp.pipeline.{Annotation, StanfordCoreNLP}
 import edu.stanford.nlp.sentiment.SentimentCoreAnnotations
-import examples.Sentiment.Sentiment
+import nlp.Sentiment
+import Sentiment.Sentiment
 
 import scala.collection.convert.wrapAll._
 

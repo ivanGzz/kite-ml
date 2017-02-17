@@ -1,4 +1,4 @@
-package examples
+package nlp
 
 /**
  * Created by nigonzalez on 11/24/16.

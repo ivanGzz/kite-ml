@@ -11,16 +11,15 @@ import slick.driver.PostgresDriver.api._
  * Created by nigonzalez on 2/9/17.
  */
 
-case class UserCompetency(id: Long, user_id: Long, chat_room_id: Long, competencies: String)
+case class UserCompetency(id: Long, user_id: Long, competencies: String)
 
 class UserCompetencyTableDef(tag: Tag) extends Table[UserCompetency](tag, "user_competency") {
 
     def id = column[Long]("id", O.PrimaryKey)
     def user_id = column[Long]("user_id")
-    def chat_room_id = column[Long]("chat_room_id")
     def competencies = column[String]("competencies")
 
-    override def * = (id, user_id, chat_room_id, competencies) <> (UserCompetency.tupled, UserCompetency.unapply)
+    override def * = (id, user_id, competencies) <> (UserCompetency.tupled, UserCompetency.unapply)
 
 }
 
@@ -44,14 +43,14 @@ object UserCompetencies {
         res => userCompetency.id
     )
 
-    def updateUserCompetencies(userId: Long, chatRoomId: Long, competencies: String): Future[Boolean] = dbConfig.db.run(
+    def updateUserCompetencies(userId: Long, competencies: String): Future[Long] = dbConfig.db.run(
         userCompetencies.filter(
-            x => x.user_id === userId && x.chat_room_id === chatRoomId
+            _.user_id === userId
         ).map(
             _.competencies
         ).update(competencies)
     ).map(
-        res => true
+        res => userId
     )
 
 }

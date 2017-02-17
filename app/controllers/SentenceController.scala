@@ -1,6 +1,7 @@
 package controllers
 
 import nlp.NLP
+import nlp.Sentiment.Sentiment
 import play.api.mvc.{Action, Controller}
 import play.api.libs.json.{JsError, JsSuccess, Json}
 
@@ -10,14 +11,17 @@ import play.api.libs.json.{JsError, JsSuccess, Json}
 object SentenceController extends Controller {
 
     case class InquiryRequest(sentence: String)
-    case class InquiryResponse(inquiry: Boolean)
+    case class InquiryResponse(inquiry: Boolean, sentiment: Sentiment)
 
     implicit val inquiryRead = Json.reads[InquiryRequest]
     implicit val inquiryWrite = Json.writes[InquiryResponse]
 
     def post = Action(parse.json) { implicit request =>
         request.body.validate match {
-            case JsSuccess(sentence, _) => Ok(Json.toJson(InquiryResponse(NLP.detectInquiry(sentence.sentence))))
+            case JsSuccess(sentence, _) => {
+                val (inquiry, sentiment) = NLP.processSentence(sentence.sentence)
+                Ok(Json.toJson(InquiryResponse(inquiry, sentiment)))
+            }
             case JsError(errs) => BadRequest
         }
     }

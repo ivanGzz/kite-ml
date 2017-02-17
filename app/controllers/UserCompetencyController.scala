@@ -11,17 +11,15 @@ import scala.concurrent.Future
  */
 object UserCompetencyController extends Controller {
 
-    case class UCPostRequest(user_id: Long, chat_room_id: Long)
-    case class UCPutRequest(user_id: Long, chat_room_id: Long, competencies: List[Int])
+    case class UserCompetencyRequest(user_id: Long, chat_room_id: Long, competencies: List[Int])
 
-    implicit val uCPostRequestRead = Json.reads[UCPostRequest]
-    implicit val UCPutRequestRead = Json.reads[UCPutRequest]
+    implicit val UCPutRequestRead = Json.reads[UserCompetencyRequest]
 
     def post = Action.async(parse.json) { implicit request =>
-        request.body.validate[UCPostRequest] match {
+        request.body.validate match {
             case JsSuccess(postRequest, _) =>
                 AuditLogs.addToLog(request.uri, "POST", postRequest.toString).flatMap(res => {
-                    val userCompetency = UserCompetency(0, postRequest.user_id, postRequest.chat_room_id, "")
+                    val userCompetency = UserCompetency(0, postRequest.user_id, postRequest.competencies.mkString(","))
                     UserCompetencies.addToUserCompetencies(userCompetency)
                 }).map(res =>
                     Ok(res.toString)
@@ -31,15 +29,19 @@ object UserCompetencyController extends Controller {
     }
 
     def put = Action.async(parse.json) { implicit request =>
-        request.body.validate[UCPutRequest] match {
+        request.body.validate match {
             case JsSuccess(putRequest, _) =>
                 AuditLogs.addToLog(request.uri, "PUT", putRequest.toString).flatMap(res => {
-                    UserCompetencies.updateUserCompetencies(putRequest.user_id, putRequest.chat_room_id, putRequest.competencies.mkString(","))
+                    UserCompetencies.updateUserCompetencies(putRequest.user_id, putRequest.competencies.mkString(","))
                 }).map(res =>
                     Ok
                 )
             case JsError(errors) => Future(BadRequest)
         }
+    }
+
+    def train = Action {
+        Ok
     }
 
 }
