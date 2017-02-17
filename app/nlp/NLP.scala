@@ -26,12 +26,11 @@ object NLP {
     val sentimentPipeline: StanfordCoreNLP = new StanfordCoreNLP(sentimentProperties)
 
     def processSentence(sentence: String): (Boolean, Sentiment) = {
-        (detectInquiry(sentence), sentiment(sentence))
+        (sentence.split("[\\.\\?]").exists(detectInquiry), sentiment(sentence))
     }
 
     def detectInquiry(sentence: String): Boolean = {
         val tree = englishParser.parse(sentence)
-        tree.pennPrint()
         if (tree.numChildren() > 0) {
             val clause = tree.getChild(0)
             if (clause.label().value() == inquiry) {

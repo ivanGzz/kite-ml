@@ -10,6 +10,7 @@ CREATE TABLE audit_log (
 
 CREATE TABLE user_competency (
     id SERIAL PRIMARY KEY,
+    project_id INTEGER,
     user_id INTEGER,
     competencies TEXT
 )

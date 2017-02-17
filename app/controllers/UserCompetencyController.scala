@@ -1,5 +1,6 @@
 package controllers
 
+import learning.UserCompetencyNet
 import models.{UserCompetencies, AuditLogs, UserCompetency}
 import play.api.libs.json.{JsError, JsSuccess, Json}
 import play.api.mvc.{Action, Controller}
@@ -11,7 +12,7 @@ import scala.concurrent.Future
  */
 object UserCompetencyController extends Controller {
 
-    case class UserCompetencyRequest(user_id: Long, chat_room_id: Long, competencies: List[Int])
+    case class UserCompetencyRequest(project_id: Long, user_id: Long, competencies: List[Int])
 
     implicit val UCPutRequestRead = Json.reads[UserCompetencyRequest]
 
@@ -19,10 +20,10 @@ object UserCompetencyController extends Controller {
         request.body.validate match {
             case JsSuccess(postRequest, _) =>
                 AuditLogs.addToLog(request.uri, "POST", postRequest.toString).flatMap(res => {
-                    val userCompetency = UserCompetency(0, postRequest.user_id, postRequest.competencies.mkString(","))
+                    val userCompetency = UserCompetency(0, postRequest.project_id, postRequest.user_id, postRequest.competencies.mkString(","))
                     UserCompetencies.addToUserCompetencies(userCompetency)
                 }).map(res =>
-                    Ok(res.toString)
+                    Ok(UserCompetencyNet.rate(postRequest.competencies).toString)
                 )
             case JsError(errors) => Future(BadRequest)
         }
@@ -32,9 +33,9 @@ object UserCompetencyController extends Controller {
         request.body.validate match {
             case JsSuccess(putRequest, _) =>
                 AuditLogs.addToLog(request.uri, "PUT", putRequest.toString).flatMap(res => {
-                    UserCompetencies.updateUserCompetencies(putRequest.user_id, putRequest.competencies.mkString(","))
+                    UserCompetencies.updateUserCompetencies(putRequest.project_id, putRequest.user_id, putRequest.competencies.mkString(","))
                 }).map(res =>
-                    Ok
+                    Ok(UserCompetencyNet.rate(putRequest.competencies).toString)
                 )
             case JsError(errors) => Future(BadRequest)
         }

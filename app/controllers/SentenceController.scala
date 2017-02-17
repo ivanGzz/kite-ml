@@ -10,7 +10,7 @@ import play.api.libs.json.{JsError, JsSuccess, Json}
  */
 object SentenceController extends Controller {
 
-    case class InquiryRequest(sentence: String)
+    case class InquiryRequest(language: String, sentence: String)
     case class InquiryResponse(inquiry: Boolean, sentiment: Sentiment)
 
     implicit val inquiryRead = Json.reads[InquiryRequest]
