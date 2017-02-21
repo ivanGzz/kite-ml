@@ -12,12 +12,11 @@ CREATE TABLE user_competency (
     id SERIAL PRIMARY KEY,
     project_id INTEGER,
     user_id INTEGER,
-    competencies TEXT
+    competencies TEXT,
+    score TEXT
 )
 
 # --- !Downs
 
 DROP TABLE user_competency;
-DROP TABLE users;
-DROP TABLE chat_room;
 DROP TABLE audit_log;
