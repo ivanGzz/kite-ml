@@ -14,7 +14,7 @@ CREATE TABLE user_competency (
     user_id INTEGER,
     competencies TEXT,
     score TEXT
-)
+);
 
 # --- !Downs
 
