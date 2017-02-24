@@ -1,6 +1,9 @@
 package learning
 
-import models.UserCompetency
+import models.{UserCompetencies, UserCompetency}
+import org.datavec.api.records.reader.impl.collection.ListStringRecordReader
+import org.datavec.api.split.ListStringSplit
+import org.deeplearning4j.datasets.datavec.RecordReaderDataSetIterator
 
 /**
  * Created by nigonzalez on 2/14/17.
@@ -8,7 +11,15 @@ import models.UserCompetency
 object UserCompetencyNet {
 
     def train = {
-        ""
+        UserCompetencies.getUserCompetenciesCount.flatMap { res =>
+            println(res)
+            UserCompetencies.getUserCompetencies(1000)
+        }.map { res =>
+            val userCompetencies = scala.collection.JavaConversions.seqAsJavaList(res.map(_.toList))
+            val recordReader = new ListStringRecordReader()
+            recordReader.initialize(new ListStringSplit(userCompetencies))
+            //val iterator = new RecordReaderDataSetIterator()
+        }
     }
 
     def rate(competencies: List[Int]): String = {

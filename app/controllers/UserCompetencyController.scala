@@ -12,7 +12,7 @@ import scala.concurrent.Future
  */
 object UserCompetencyController extends Controller {
 
-    case class UserCompetencyRequest(project_id: Long, user_id: Long, competencies: List[Int])
+    case class UserCompetencyRequest(project_id: Long, user_id: Long, competencies: List[Int], score: String)
 
     implicit val UCPutRequestRead = Json.reads[UserCompetencyRequest]
 
@@ -20,7 +20,7 @@ object UserCompetencyController extends Controller {
         request.body.validate match {
             case JsSuccess(postRequest, _) =>
                 AuditLogs.addToLog(request.uri, "POST", postRequest.toString).flatMap(res => {
-                    val userCompetency = UserCompetency(0, postRequest.project_id, postRequest.user_id, postRequest.competencies.mkString(","))
+                    val userCompetency = UserCompetency(0, postRequest.project_id, postRequest.user_id, postRequest.competencies.mkString(","), postRequest.score)
                     UserCompetencies.addToUserCompetencies(userCompetency)
                 }).map(res =>
                     Ok(UserCompetencyNet.rate(postRequest.competencies).toString)

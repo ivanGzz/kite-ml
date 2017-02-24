@@ -11,7 +11,13 @@ import slick.driver.PostgresDriver.api._
  * Created by nigonzalez on 2/9/17.
  */
 
-case class UserCompetency(id: Long, project_id: Long, user_id: Long, competencies: String)
+case class UserCompetency(id: Long, project_id: Long, user_id: Long, competencies: String, score: String) {
+
+    def toList: java.util.List[String] = {
+        scala.collection.JavaConversions.seqAsJavaList(score :: competencies.split(",").toList)
+    }
+
+}
 
 class UserCompetencyTableDef(tag: Tag) extends Table[UserCompetency](tag, "user_competency") {
 
@@ -19,8 +25,9 @@ class UserCompetencyTableDef(tag: Tag) extends Table[UserCompetency](tag, "user_
     def project_id = column[Long]("project_id")
     def user_id = column[Long]("user_id")
     def competencies = column[String]("competencies")
+    def score = column[String]("score")
 
-    override def * = (id, project_id, user_id, competencies) <> (UserCompetency.tupled, UserCompetency.unapply)
+    override def * = (id, project_id, user_id, competencies, score) <> (UserCompetency.tupled, UserCompetency.unapply)
 
 }
 
@@ -34,8 +41,12 @@ object UserCompetencies {
         userCompetencies.filter(_.id === id).result.headOption
     )
 
-    def getUserCompetencies: Future[Seq[UserCompetency]] = dbConfig.db.run(
-        userCompetencies.result
+    def getUserCompetenciesCount: Future[Int] = dbConfig.db.run(
+        userCompetencies.length.result
+    )
+
+    def getUserCompetencies(limit: Int): Future[Seq[UserCompetency]] = dbConfig.db.run(
+        userCompetencies.take(limit).result
     )
 
     def addToUserCompetencies(userCompetency: UserCompetency): Future[Long] = dbConfig.db.run(
