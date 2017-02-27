@@ -7,13 +7,13 @@ students = [(i, 0) for i in range(STUDENTS_COUNT)]
 def rate(a, b, c, d):
     s = a + b + c + d
     if s < 4:
-        return "D"
+        return "4"
     elif s < 8:
-        return "C"
+        return "3"
     elif s < 12:
-        return "B"
+        return "2"
     else:
-        return "A"
+        return "1"
 
 def randStudent():
     return random.randint(0, len(students) - 1)

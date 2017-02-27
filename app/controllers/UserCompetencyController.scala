@@ -41,8 +41,8 @@ object UserCompetencyController extends Controller {
         }
     }
 
-    def train = Action {
-        Ok
+    def train = Action.async {
+        UserCompetencyNet.train.map(res => Ok(res))
     }
 
 }

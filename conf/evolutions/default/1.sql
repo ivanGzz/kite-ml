@@ -8,6 +8,13 @@ CREATE TABLE audit_log (
     created TIMESTAMP
 );
 
+CREATE TABLE network (
+    id SERIAL PRIMARY KEY,
+    name TEXT,
+    network TEXT,
+    created TIMESTAMP
+);
+
 CREATE TABLE user_competency (
     id SERIAL PRIMARY KEY,
     project_id INTEGER,
@@ -19,4 +26,5 @@ CREATE TABLE user_competency (
 # --- !Downs
 
 DROP TABLE user_competency;
+DROP TABLE network;
 DROP TABLE audit_log;
