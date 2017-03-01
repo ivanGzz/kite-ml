@@ -16,7 +16,23 @@ object SentenceController extends Controller {
     implicit val inquiryRead = Json.reads[InquiryRequest]
     implicit val inquiryWrite = Json.writes[InquiryResponse]
 
-    def post = Action(parse.json) { implicit request =>
+    def get = Action {
+        Ok
+    }
+
+    def post = Action {
+        Ok
+    }
+
+    def put = Action {
+        Ok
+    }
+
+    def random = Action {
+        Ok
+    }
+
+    def commonGround = Action(parse.json) { implicit request =>
         request.body.validate match {
             case JsSuccess(sentence, _) => {
                 val (inquiry, sentiment) = NLP.processSentence(sentence.sentence)

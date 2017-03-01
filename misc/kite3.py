@@ -6,11 +6,11 @@ students = [(i, 0) for i in range(STUDENTS_COUNT)]
 
 def rate(a, b, c, d):
     s = a + b + c + d
-    if s < 4:
+    if s < 3:
         return "4"
-    elif s < 8:
+    elif s < 6:
         return "3"
-    elif s < 12:
+    elif s < 9:
         return "2"
     else:
         return "1"

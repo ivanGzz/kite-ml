@@ -1,6 +1,6 @@
 package learning
 
-import java.io.{ByteArrayOutputStream, OutputStream}
+import java.io.ByteArrayOutputStream
 import java.sql.Date
 
 import models.{Network, Networks, UserCompetencies}
@@ -77,7 +77,7 @@ object UserCompetencyNet {
                 println("Epoch")
                 model.fit(iterator)
             }
-           multiLayerNetwork = Some(model)
+            multiLayerNetwork = Some(model)
             println("Evaluating")
             val eval = new Evaluation(outputs)
             while (iteratorTest.hasNext) {
@@ -91,7 +91,7 @@ object UserCompetencyNet {
             ModelSerializer.writeModel(model, outputStream, false)
             val today = new java.util.Date()
             val modelString = new String(outputStream.toByteArray)
-            val network = Network(0L, "user_competency", modelString, new Date(today.getTime))
+            val network = Network(0L, "user_competency", configuration.toJson, new Date(today.getTime))
             Networks.addToNetworks(network)
         }.map(res =>
             "Completed"

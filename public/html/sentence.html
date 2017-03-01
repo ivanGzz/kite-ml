@@ -1,0 +1,35 @@
+<html>
+<head>
+    <title>Sentence</title>
+    <link rel="stylesheet" type="text/css" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body ng-app="sentence">
+<div class="container" ng-controller="sentenceController">
+    <div class="page-header">
+        <h1>Sentences</h1>
+    </div>
+    <h2>New sentence</h2>
+    <form ng-submit="send(sentence)">
+        <div class="form-group">
+            <label class="control-label" for="sentenceContent">Sentence content</label>
+            <input class="form-control" id="sentenceContent" type="text" placeholder="Sentence" ng-model="sentence.content" required />
+        </div>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" ng-model="sentence.question" />
+                Question?
+            </label>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" ng-model="sentence.commonGround" />
+                Common ground?
+            </label>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+<script src="/assets/bower_components/angular/angular.min.js"></script>
+<script src="/assets/javascript/kite.js"></script>
+</body>
+</html>

@@ -1,9 +1,15 @@
-GET     /				        controllers.HomeController.home
-GET     /mnist                  examples.ExampleController.mnist
-GET     /sentiment              examples.ExampleController.sentiment(text: String)
+GET     /				            controllers.HomeController.home
 
-POST    /sentence               controllers.SentenceController.post
+GET     /example/mnist              examples.ExampleController.mnist
+GET     /example/sentiment          examples.ExampleController.sentiment(text: String)
 
-POST    /user-competency        controllers.UserCompetencyController.post
-PUT     /user-competency        controllers.UserCompetencyController.put
-GET     /user-competency/train  controllers.UserCompetencyController.train
+GET     /sentence                   controllers.Assets.at(path="/public/html", file="sentence.html")
+POST    /sentence                   controllers.SentenceController.post
+GET     /sentence/random            controllers.SentenceController.random
+POST    /sentence/common-ground     controllers.SentenceController.commonGround
+
+POST    /user-competency            controllers.UserCompetencyController.post
+PUT     /user-competency            controllers.UserCompetencyController.put
+GET     /user-competency/train      controllers.UserCompetencyController.train
+
+GET     /assets/*file               controllers.Assets.at(path="/public", file)

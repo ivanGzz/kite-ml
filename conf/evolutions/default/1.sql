@@ -15,6 +15,14 @@ CREATE TABLE network (
     created TIMESTAMP
 );
 
+CREATE TABLE sentence (
+    id SERIAL PRIMARY KEY,
+    content TEXT,
+    question BOOLEAN,
+    common_ground BOOLEAN,
+    created TIMESTAMP
+);
+
 CREATE TABLE user_competency (
     id SERIAL PRIMARY KEY,
     project_id INTEGER,
