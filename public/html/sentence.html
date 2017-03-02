@@ -8,11 +8,26 @@
     <div class="page-header">
         <h1>Sentences</h1>
     </div>
-    <h2>New sentence</h2>
     <form ng-submit="send(sentence)">
+        <h2>New sentence</h2>
         <div class="form-group">
             <label class="control-label" for="sentenceContent">Sentence content</label>
             <input class="form-control" id="sentenceContent" type="text" placeholder="Sentence" ng-model="sentence.content" required />
+        </div>
+        <div class="form-group">
+            <label for="sentenceLanguage">Language</label>
+            <select id="sentenceLanguage" class="form-control" ng-model="sentence.lang">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="sentenceSentiment">Sentiment</label>
+            <select id="sentenceSentiment" class="form-control" ng-model="sentence.sentiment">
+                <option value="-1">Negative</option>
+                <option value="0">Neutral</option>
+                <option value="1">Positive</option>
+            </select>
         </div>
         <div class="form-check">
             <label class="form-check-label">
@@ -27,6 +42,33 @@
             </label>
         </div>
         <button type="submit">Submit</button>
+    </form>
+    <form ng-if="exists" ng-submit="update(review)">
+        <h2>Review sentence</h2>
+        <h3>{{review.content}}</h3>
+        <h4>{{review.lang}}</h4>
+        <div class="form-group">
+            <label for="reviewSentiment">Sentiment</label>
+            <select id="reviewSentiment" class="form-control" ng-model="review.sentiment">
+                <option value="-1">Negative</option>
+                <option value="0">Neutral</option>
+                <option value="1">Positive</option>
+            </select>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" ng-model="review.question" />
+                Question?
+            </label>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" ng-model="review.commonGround" />
+                Common ground?
+            </label>
+        </div>
+        <button type="submit">Update</button>
+        <button type="button" ng-click="reload()">Reload</button>
     </form>
 </div>
 <script src="/assets/bower_components/angular/angular.min.js"></script>

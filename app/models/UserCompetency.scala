@@ -1,5 +1,7 @@
 package models
 
+import java.sql.Date
+
 import play.api.Play
 import play.api.db.slick.DatabaseConfigProvider
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -11,7 +13,7 @@ import slick.driver.PostgresDriver.api._
  * Created by nigonzalez on 2/9/17.
  */
 
-case class UserCompetency(id: Long, project_id: Long, user_id: Long, competencies: String, score: String) {
+case class UserCompetency(id: Long, project_id: Long, user_id: Long, competencies: String, score: String, created: Date) {
 
     def toList: java.util.List[String] = {
         scala.collection.JavaConversions.seqAsJavaList(score :: competencies.split(",").toList)
@@ -26,8 +28,9 @@ class UserCompetencyTableDef(tag: Tag) extends Table[UserCompetency](tag, "user_
     def user_id = column[Long]("user_id")
     def competencies = column[String]("competencies")
     def score = column[String]("score")
+    def created = column[Date]("created")
 
-    override def * = (id, project_id, user_id, competencies, score) <> (UserCompetency.tupled, UserCompetency.unapply)
+    override def * = (id, project_id, user_id, competencies, score, created) <> (UserCompetency.tupled, UserCompetency.unapply)
 
 }
 

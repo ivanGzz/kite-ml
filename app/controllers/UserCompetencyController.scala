@@ -1,5 +1,7 @@
 package controllers
 
+import java.sql.Date
+
 import learning.UserCompetencyNet
 import models.{UserCompetencies, AuditLogs, UserCompetency}
 import play.api.libs.json.{JsError, JsSuccess, Json}
@@ -20,7 +22,8 @@ object UserCompetencyController extends Controller {
         request.body.validate match {
             case JsSuccess(postRequest, _) =>
                 AuditLogs.addToLog(request.uri, "POST", postRequest.toString).flatMap(res => {
-                    val userCompetency = UserCompetency(0, postRequest.project_id, postRequest.user_id, postRequest.competencies.mkString(","), postRequest.score)
+                    val today = new java.util.Date()
+                    val userCompetency = UserCompetency(0, postRequest.project_id, postRequest.user_id, postRequest.competencies.mkString(","), postRequest.score, new Date(today.getTime))
                     UserCompetencies.addToUserCompetencies(userCompetency)
                 }).map(res =>
                     Ok(UserCompetencyNet.rate(postRequest.competencies).toString)

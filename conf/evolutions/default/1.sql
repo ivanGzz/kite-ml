@@ -17,7 +17,9 @@ CREATE TABLE network (
 
 CREATE TABLE sentence (
     id SERIAL PRIMARY KEY,
+    lang TEXT,
     content TEXT,
+    sentiment TEXT,
     question BOOLEAN,
     common_ground BOOLEAN,
     created TIMESTAMP
@@ -28,11 +30,13 @@ CREATE TABLE user_competency (
     project_id INTEGER,
     user_id INTEGER,
     competencies TEXT,
-    score TEXT
+    score TEXT,
+    created TIMESTAMP
 );
 
 # --- !Downs
 
 DROP TABLE user_competency;
+DROP TABLE sentence;
 DROP TABLE network;
 DROP TABLE audit_log;
