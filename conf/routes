@@ -1,8 +1,5 @@
 GET     /				            controllers.HomeController.home
 
-GET     /example/mnist              examples.ExampleController.mnist
-GET     /example/sentiment          examples.ExampleController.sentiment(text: String)
-
 GET     /sentence                   controllers.Assets.at(path="/public/html", file="sentence.html")
 POST    /sentence                   controllers.SentenceController.post
 PUT     /sentence                   controllers.SentenceController.put
