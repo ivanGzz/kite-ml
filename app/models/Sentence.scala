@@ -51,4 +51,10 @@ object Sentences {
         res => sentence.id
     )
 
+    def updateSentence(id: Long, sentiment: String, question: Boolean, commonGround: Boolean): Future[Long] = dbConfig.db.run(
+        sentences.filter(_.id === id).map(x => (x.sentiment, x.question, x.common_ground)).update((sentiment, question, commonGround))
+    ).map(res =>
+        id
+    )
+
 }

@@ -5,7 +5,7 @@ angular.module('sentence', []).controller('sentenceController', ['$scope', '$htt
     $scope.sentence.lang = 'en';
     $scope.sentence.sentiment = '0';
     $scope.sentence.question = false;
-    $scope.sentence.commonGround = false;
+    $scope.sentence.common_ground = false;
     $scope.send = function (sentence) {
         console.log(sentence);
         $http.post('/sentence', sentence).then(function (res) {
@@ -13,7 +13,7 @@ angular.module('sentence', []).controller('sentenceController', ['$scope', '$htt
             $scope.sentence.lang = 'en';
             $scope.sentence.sentiment = '0';
             $scope.sentence.question = false;
-            $scope.sentence.commonGround = false;
+            $scope.sentence.common_ground = false;
         }, function (err) {
             console.log(err);
         });
@@ -28,7 +28,12 @@ angular.module('sentence', []).controller('sentenceController', ['$scope', '$htt
         });
     }
     $scope.update = function (review) {
-
+        console.log(review);
+        $http.put('/sentence', review).then(function (res) {
+            $scope.reload();
+        }, function (err) {
+            console.log(err);
+        });
     };
     $scope.reload();
 }]);

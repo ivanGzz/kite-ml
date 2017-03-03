@@ -20,12 +20,15 @@ object SentenceController extends Controller {
     case class InquiryRequest(language: String, sentence: String)
     case class InquiryResponse(inquiry: Boolean, sentiment: Int)
 
-    case class SentenceRequest(lang: String, content: String, sentiment: String, question: Boolean, commonGround: Boolean)
+    case class SentenceRequest(lang: String, content: String, sentiment: String, question: Boolean, common_ground: Boolean)
+    case class SentenceUpdate(id: Long, sentiment: String, question: Boolean, common_ground: Boolean)
 
     implicit val inquiryRead = Json.reads[InquiryRequest]
     implicit val inquiryWrite = Json.writes[InquiryResponse]
     implicit val sentenceRead = Json.reads[SentenceRequest]
     implicit val sentenceWrite = Json.writes[Sentence]
+    implicit val sentenceUpdate = Json.reads[SentenceUpdate]
+
     val rand = new Random()
 
     def post = Action.async(parse.json) { implicit request =>
@@ -37,7 +40,7 @@ object SentenceController extends Controller {
                     sentence.content,
                     sentence.sentiment,
                     sentence.question,
-                    sentence.commonGround,
+                    sentence.common_ground,
                     new Date(today.getTime))
                 Sentences.addToSentences(newSentence).map(res =>
                     Ok
@@ -47,8 +50,15 @@ object SentenceController extends Controller {
         }
     }
 
-    def put = Action {
-        Ok
+    def put = Action.async(parse.json) { implicit request =>
+        request.body.validate(sentenceUpdate) match {
+            case JsSuccess(update, _) => {
+                Sentences.updateSentence(update.id, update.sentiment, update.question, update.common_ground).map(res =>
+                    Ok
+                )
+            }
+            case JsError(errors) => Future(BadRequest)
+        }
     }
 
     def random = Action.async {

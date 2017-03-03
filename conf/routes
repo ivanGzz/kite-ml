@@ -5,6 +5,7 @@ GET     /example/sentiment          examples.ExampleController.sentiment(text: S
 
 GET     /sentence                   controllers.Assets.at(path="/public/html", file="sentence.html")
 POST    /sentence                   controllers.SentenceController.post
+PUT     /sentence                   controllers.SentenceController.put
 GET     /sentence/random            controllers.SentenceController.random
 POST    /sentence/common-ground     controllers.SentenceController.commonGround
 
