@@ -11,7 +11,8 @@ CREATE TABLE audit_log (
 CREATE TABLE network (
     id SERIAL PRIMARY KEY,
     name TEXT,
-    network TEXT,
+    path TEXT,
+    version INTEGER,
     created TIMESTAMP
 );
 

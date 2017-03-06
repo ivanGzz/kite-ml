@@ -1,11 +1,13 @@
 package learning
 
-import java.io.ByteArrayOutputStream
+import java.io.{FileOutputStream, File}
 import java.sql.Date
 
 import models.{Network, Networks, UserCompetencies}
+
 import org.datavec.api.records.reader.impl.collection.ListStringRecordReader
 import org.datavec.api.split.ListStringSplit
+
 import org.deeplearning4j.datasets.datavec.RecordReaderDataSetIterator
 import org.deeplearning4j.eval.Evaluation
 import org.deeplearning4j.nn.api.OptimizationAlgorithm
@@ -16,7 +18,9 @@ import org.deeplearning4j.nn.multilayer.MultiLayerNetwork
 import org.deeplearning4j.nn.weights.WeightInit
 import org.deeplearning4j.optimize.listeners.ScoreIterationListener
 import org.deeplearning4j.util.ModelSerializer
+
 import org.nd4j.linalg.lossfunctions.LossFunctions.LossFunction
+
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -87,11 +91,11 @@ object UserCompetencyNet {
             }
             println("End")
             println(eval.stats())
-            val outputStream = new ByteArrayOutputStream()
+            val file = new File("network.zip")
+            val outputStream = new FileOutputStream(file)
             ModelSerializer.writeModel(model, outputStream, false)
             val today = new java.util.Date()
-            val modelString = new String(outputStream.toByteArray)
-            val network = Network(0L, "user_competency", configuration.toJson, new Date(today.getTime))
+            val network = Network(0L, "user_competency", "network.zip", 0, new Date(today.getTime))
             Networks.addToNetworks(network)
         }.map(res =>
             "Completed"
@@ -100,12 +104,26 @@ object UserCompetencyNet {
 
     var multiLayerNetwork: Option[MultiLayerNetwork] = None
 
+    def load: Future[Boolean] = {
+        Networks.getNetworkByNameAndVersion("user_competency", 0).map {
+            _ match {
+                case Some(network) => {
+                    multiLayerNetwork = Some(ModelSerializer.restoreMultiLayerNetwork(new File(network.path)))
+                    true
+                }
+                case None => {
+                    false
+                }
+            }
+        }
+    }
+
     def rate(competencies: List[Int]): String = {
         val sum = competencies.sum
         sum match {
-            case x if x > 12 => "A"
-            case x if x > 8 => "B"
-            case x if x > 4 => "C"
+            case x if x > 9 => "A"
+            case x if x > 6 => "B"
+            case x if x > 3 => "C"
             case _ => "D"
         }
     }

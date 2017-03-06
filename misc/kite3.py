@@ -7,13 +7,13 @@ students = [(i, 0) for i in range(STUDENTS_COUNT)]
 def rate(a, b, c, d):
     s = a + b + c + d
     if s < 3:
-        return "4"
-    elif s < 6:
         return "3"
-    elif s < 9:
+    elif s < 6:
         return "2"
-    else:
+    elif s < 9:
         return "1"
+    else:
+        return "0"
 
 def randStudent():
     return random.randint(0, len(students) - 1)
@@ -45,7 +45,7 @@ while len(project) > 0:
         c = random.randint(0, 3)
         d = random.randint(0, 3)
         score = rate(a, b, c, d)
-        f.write("INSERT INTO public.user_competency (project_id, user_id, competencies, score) VALUES (%i, %i, '%i,%i,%i,%i', '%s');\n" % (projects, i, a, b, c, d, score))
+        f.write("INSERT INTO public.user_competency (project_id, user_id, competencies, score, created) VALUES (%i, %i, '%i,%i,%i,%i', '%s', current_timestamp);\n" % (projects, i, a, b, c, d, score))
     projects = projects + 1
     project = getProject()
 print projects
