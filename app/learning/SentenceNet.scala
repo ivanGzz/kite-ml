@@ -9,4 +9,12 @@ object SentenceNet {
         (false, 0)
     }
 
+    def rateEs(text: String) = {
+        (false, 0)
+    }
+
+    def rateEn(text: String) = {
+
+    }
+
 }
