@@ -36,14 +36,22 @@ object UserCompetencyNet {
     val hiddens = 20
     val rngSeed = 123
 
-    def train: Future[String] = {
+    def train: Future[Boolean] = {
         UserCompetencies.getUserCompetenciesCount.flatMap { res =>
             println(res)
-            UserCompetencies.getUserCompetencies(10000)
+            if (res <= 1000) {
+                throw new Exception()
+            } else {
+                val entries = res - res % 1000
+                println(entries)
+                UserCompetencies.getUserCompetencies(entries)
+            }
         }.flatMap { res =>
             println("Start...")
-            val userCompetencies = scala.collection.JavaConversions.seqAsJavaList(res.take(8000).map(_.toList))
-            val userCompetenciesTest = scala.collection.JavaConversions.seqAsJavaList(res.drop(8000).map(_.toList))
+            val train = res.size * 80 / 100
+            println("Training with " + train)
+            val userCompetencies = scala.collection.JavaConversions.seqAsJavaList(res.take(train).map(_.toList))
+            val userCompetenciesTest = scala.collection.JavaConversions.seqAsJavaList(res.drop(train).map(_.toList))
             val rr = new ListStringRecordReader()
             rr.initialize(new ListStringSplit(userCompetencies))
             val iterator = new RecordReaderDataSetIterator(rr, batchSize, 0, 4)
@@ -98,8 +106,10 @@ object UserCompetencyNet {
             val network = Network(0L, "user_competency", "network.zip", 0, new Date(today.getTime))
             Networks.addToNetworks(network)
         }.map(res =>
-            "Completed"
-        )
+            true
+        ).recover {
+            case _ => false
+        }
     }
 
     var multiLayerNetwork: Option[MultiLayerNetwork] = None
