@@ -1,4 +1,4 @@
-GET     /				            controllers.HomeController.home
+GET     /				            controllers.Assets.at(path="/public/html", file="doc.html")
 
 GET     /sentence                   controllers.Assets.at(path="/public/html", file="sentence.html")
 POST    /sentence                   controllers.SentenceController.post

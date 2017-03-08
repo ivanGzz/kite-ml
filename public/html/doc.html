@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Documentation</title>
+    <link rel="stylesheet" type="text/css" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+<div class="container" ng-app="documentation">
+    <div class="page-header" ng-controller="documentationController">
+        <h1>Documentation <small>v0.1</small></h1>
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default" ng-repeat="endpoint in endpoints">
+                <div class="panel-heading" role="tab" id="{{'heading' + $index}}">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="{{'#collapse' + $index}}" aria-expanded="true" ng-attr-aria-controls="{{'collapse' + $index}}">
+                        <span class="{{classes(endpoint.verb)}}">{{endpoint.verb}}</span> {{endpoint.path}}
+                    </a>
+                </div>
+                <div id="{{'collapse' + $index}}" class="panel-collapse collapse" role="tabpanel" ng-attr-aria-labelledby="{{'heading' + $index}}">
+                    <div class="panel-body">
+                        <p><strong>Description:</strong> {{endpoint.description}}</p>
+                        <p><strong>Returns:</strong> {{endpoint.returns}}</p>
+                        <pre ng-if="endpoint.returns == 'application/json'">{{endpoint.json}}</pre>
+                        <div ng-if="payload(endpoint.verb)">
+                            <p><strong>Payload:</strong></p>
+                            <pre>{{endpoint.payload}}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/assets/bower_components/angular/angular.min.js"></script>
+<script src="/assets/javascript/documentation.js"></script>
+</body>
+</html>

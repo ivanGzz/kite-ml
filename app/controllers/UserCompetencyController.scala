@@ -14,7 +14,7 @@ import scala.concurrent.Future
  */
 object UserCompetencyController extends Controller {
 
-    case class UserCompetencyRequest(project_id: Long, user_id: Long, competencies: List[Int], score: String)
+    case class UserCompetencyRequest(project_id: Long, user_id: Long, competencies: List[Int])
 
     implicit val UCPutRequestRead = Json.reads[UserCompetencyRequest]
 
@@ -23,7 +23,7 @@ object UserCompetencyController extends Controller {
             case JsSuccess(postRequest, _) =>
                 AuditLogs.addToLog(request.uri, "POST", postRequest.toString).flatMap(res => {
                     val today = new java.util.Date()
-                    val userCompetency = UserCompetency(0, postRequest.project_id, postRequest.user_id, postRequest.competencies.mkString(","), postRequest.score, new Date(today.getTime))
+                    val userCompetency = UserCompetency(0, postRequest.project_id, postRequest.user_id, postRequest.competencies.mkString(","), "0", new Date(today.getTime))
                     UserCompetencies.addToUserCompetencies(userCompetency)
                 }).map(res =>
                     Ok(UserCompetencyNet.rate(postRequest.competencies).toString)

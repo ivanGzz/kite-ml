@@ -18,7 +18,7 @@ import scala.util.Random
 object SentenceController extends Controller {
 
     case class InquiryRequest(language: String, sentence: String)
-    case class InquiryResponse(inquiry: Boolean, sentiment: Int)
+    case class InquiryResponse(common_ground: Boolean, sentiment: Int)
 
     case class SentenceRequest(lang: String, content: String, sentiment: String, question: Boolean, common_ground: Boolean)
     case class SentenceUpdate(id: Long, sentiment: String, question: Boolean, common_ground: Boolean)
@@ -76,7 +76,7 @@ object SentenceController extends Controller {
     def commonGround = Action(parse.json) { implicit request =>
         request.body.validate(inquiryRead) match {
             case JsSuccess(sentence, _) => {
-                val (inquiry, sentiment) = SentenceNet.rate(sentence.sentence)
+                val (inquiry, sentiment) = SentenceNet.rateSentence(sentence.sentence, sentence.language)
                 Ok(Json.toJson(InquiryResponse(inquiry, sentiment)))
             }
             case JsError(errs) => BadRequest
