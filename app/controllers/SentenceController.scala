@@ -83,4 +83,12 @@ object SentenceController extends Controller {
         }
     }
 
+    def train = Action {
+        Ok
+    }
+
+    def text = Action {
+        Ok
+    }
+
 }

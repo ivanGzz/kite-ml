@@ -8,12 +8,12 @@
 <body>
 <div class="container" ng-app="documentation">
     <div class="page-header" ng-controller="documentationController">
-        <h1>Documentation <small>v0.1</small></h1>
+        <h1>Documentation <small>v0.2</small></h1>
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
             <div class="panel panel-default" ng-repeat="endpoint in endpoints">
                 <div class="panel-heading" role="tab" id="{{'heading' + $index}}">
                     <a role="button" data-toggle="collapse" data-parent="#accordion" href="{{'#collapse' + $index}}" aria-expanded="true" ng-attr-aria-controls="{{'collapse' + $index}}">
-                        <span class="{{classes(endpoint.verb)}}">{{endpoint.verb}}</span> {{endpoint.path}}
+                        <span class="{{classes(endpoint.verb)}}">{{endpoint.verb}}</span> {{endpoint.path}} <span ng-if="!endpoint.implemented">(Not implemented)</span>
                     </a>
                 </div>
                 <div id="{{'collapse' + $index}}" class="panel-collapse collapse" role="tabpanel" ng-attr-aria-labelledby="{{'heading' + $index}}">

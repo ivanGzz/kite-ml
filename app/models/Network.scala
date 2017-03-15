@@ -49,4 +49,15 @@ object Networks {
         res => network.id
     )
 
+    def addToNetworksVersioned(network: Network): Future[Long] = dbConfig.db.run(
+        networks.filter(_.name === network.name).sortBy(_.version.desc).result.headOption
+    ).flatMap {
+        _ match {
+            case Some(n) =>
+                addToNetworks(Network(0, network.name, network.path, n.version + 1, network.created))
+            case None =>
+                addToNetworks(network)
+        }
+    }
+
 }

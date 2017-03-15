@@ -1,13 +1,21 @@
-GET     /				            controllers.Assets.at(path="/public/html", file="doc.html")
+GET     /				                controllers.Assets.at(path="/public/html", file="documentation.html")
 
-GET     /sentence                   controllers.Assets.at(path="/public/html", file="sentence.html")
-POST    /sentence                   controllers.SentenceController.post
-PUT     /sentence                   controllers.SentenceController.put
-GET     /sentence/random            controllers.SentenceController.random
-POST    /sentence/common-ground     controllers.SentenceController.commonGround
+GET     /sentence                       controllers.Assets.at(path="/public/html", file="sentence.html")
+POST    /sentence                       controllers.SentenceController.post
+PUT     /sentence                       controllers.SentenceController.put
+GET     /sentence/random                controllers.SentenceController.random
+POST    /sentence/common-ground         controllers.SentenceController.commonGround
+GET     /sentence/train                 controllers.SentenceController.train
+POST    /sentence/text                  controllers.SentenceController.text
 
-POST    /user-competency            controllers.UserCompetencyController.post
-PUT     /user-competency            controllers.UserCompetencyController.put
-GET     /user-competency/train      controllers.UserCompetencyController.train
+GET     /user-competency                controllers.Assets.at(path="/public/html", file="competency.html")
+POST    /user-competency                controllers.UserCompetencyController.post
+PUT     /user-competency                controllers.UserCompetencyController.put
+GET     /user-competency/random         controllers.UserCompetencyController.random
+POST    /user-competency/rate           controllers.UserCompetencyController.rate
+GET     /user-competency/train          controllers.UserCompetencyController.train
+GET     /user-competency/load           controllers.UserCompetencyController.latest
+GET     /user-competency/load/:version  controllers.UserCompetencyController.load(version: Long)
+GET     /user-competency/:userid        controllers.UserCompetencyController.user(userid: Long)
 
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /assets/*file                   controllers.Assets.at(path="/public", file)

@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
@@ -10,7 +11,7 @@
         <h1>Sentences</h1>
     </div>
     <form ng-submit="send(sentence)">
-        <h2>New sentence</h2>
+        <h3>New sentence</h3>
         <div class="form-group">
             <label class="control-label" for="sentenceContent">Sentence content</label>
             <input class="form-control" id="sentenceContent" type="text" placeholder="Sentence" ng-model="sentence.content" required />
@@ -45,9 +46,9 @@
         <button type="submit">Submit</button>
     </form>
     <form ng-if="exists" ng-submit="update(review)">
-        <h2>Review sentence</h2>
-        <h3>{{review.content}}</h3>
-        <h4>{{review.lang}}</h4>
+        <h3>Review sentence</h3>
+        <h4>{{review.content}}</h4>
+        <h5>{{review.lang}}</h5>
         <div class="form-group">
             <label for="reviewSentiment">Sentiment</label>
             <select id="reviewSentiment" class="form-control" ng-model="review.sentiment">
@@ -73,6 +74,6 @@
     </form>
 </div>
 <script src="/assets/bower_components/angular/angular.min.js"></script>
-<script src="/assets/javascript/kite.js"></script>
+<script src="/assets/javascript/sentence.js"></script>
 </body>
 </html>

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User competencies</title>
+    <link rel="stylesheet" type="text/css" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body ng-app="competency">
+<div class="container" ng-controller="competencyController">
+    <div class="page-header">
+        <h1>User Competencies</h1>
+    </div>
+    <form ng-submit="send(competency)">
+        <h3>New Competency</h3>
+        <div class="form-group">
+            <label class="control-label" for="userId">User ID</label>
+            <input class="form-control" id="userId" type="number" placeholder="User ID" ng-model="competency.user_id" required />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="projectId">Project ID</label>
+            <input class="form-control" id="projectId" type="number" placeholder="Project ID" ng-model="competency.project_id" required />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="competencies">Competencies</label>
+            <input class="form-control" id="competencies" type="text" placeholder="Competencies (separated by commas)" ng-model="competency.competencies" required />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="score">Score</label>
+            <input class="form-control" id="score" type="text" placeholder="Score" ng-model="competency.score" required />
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+    <form ng-if="exists" ng-submit="update(review)">
+        <h3>Review competency</h3>
+        <h4>User {{review.user_id}}</h4>
+        <h4>Project {{review.project_id}}</h4>
+        <div class="form-group">
+            <label class="control-label" for="competenciesReview">Competencies</label>
+            <input class="form-control" id="competenciesReview" type="text" placeholder="Competencies (separated by commas)" ng-model="review.competencies" required />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="scoreReview">Score</label>
+            <input class="form-control" id="scoreReview" type="text" placeholder="Score" ng-model="review.score" required />
+        </div>
+        <button type="submit">Update</button>
+        <button type="button" ng-click="reload()">Reload</button>
+    </form>
+</div>
+<script src="/assets/bower_components/angular/angular.min.js"></script>
+<script src="/assets/javascript/competency.js"></script>
+</body>
+</html>

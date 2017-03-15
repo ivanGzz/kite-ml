@@ -68,4 +68,22 @@ object UserCompetencies {
         res => userId
     )
 
+    def updateUser(project_id: Long, user_id: Long, competencies: String, score: String): Future[Long] = dbConfig.db.run(
+        userCompetencies.filter(
+            x => x.user_id === user_id && x.project_id === project_id
+        ).map(
+            x => (x.competencies, x.score)
+        ).update((competencies, score))
+    ).map(
+        res => user_id
+    )
+
+    def getUser(user_id: Long): Future[Seq[UserCompetency]] = dbConfig.db.run(
+        userCompetencies.filter(_.user_id === user_id).result
+    )
+
+    def getUserByPosition(position: Int): Future[Option[UserCompetency]] = dbConfig.db.run(
+        userCompetencies.drop(position).take(1).result.headOption
+    )
+
 }

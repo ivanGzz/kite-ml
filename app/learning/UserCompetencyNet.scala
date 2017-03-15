@@ -35,15 +35,14 @@ object UserCompetencyNet {
     val outputs = 4
     val hiddens = 20
     val rngSeed = 123
+    val pathToSave = "public/files/network-"
 
     def train: Future[Boolean] = {
         UserCompetencies.getUserCompetenciesCount.flatMap { res =>
-            println(res)
             if (res <= 1000) {
                 throw new Exception()
             } else {
                 val entries = res - res % 1000
-                println(entries)
                 UserCompetencies.getUserCompetencies(entries)
             }
         }.flatMap { res =>
@@ -99,16 +98,19 @@ object UserCompetencyNet {
             }
             println("End")
             println(eval.stats())
-            val file = new File("network.zip")
+            val today = new java.util.Date()
+            val file = new File(pathToSave + today.getTime + ".zip")
             val outputStream = new FileOutputStream(file)
             ModelSerializer.writeModel(model, outputStream, false)
-            val today = new java.util.Date()
-            val network = Network(0L, "user_competency", "network.zip", 0, new Date(today.getTime))
-            Networks.addToNetworks(network)
+            val network = Network(0L, "user_competency", "/assets/files/" + file.getName, 1, new Date(today.getTime))
+            Networks.addToNetworksVersioned(network)
         }.map(res =>
             true
         ).recover {
-            case _ => false
+            case e => {
+                e.printStackTrace()
+                false
+            }
         }
     }
 
