@@ -117,7 +117,19 @@ object UserCompetencyNet {
     var multiLayerNetwork: Option[MultiLayerNetwork] = None
 
     def load: Future[Boolean] = {
-        Networks.getNetworkByNameAndVersion("user_competency", 0).map {
+        Networks.getLatestNetworkByName("user_competency").map {
+            case Some(network) => {
+                multiLayerNetwork = Some(ModelSerializer.restoreMultiLayerNetwork(new File(network.path)))
+                true
+            }
+            case None => {
+                false
+            }
+        }
+    }
+
+    def load(version: Int): Future[Boolean] = {
+        Networks.getNetworkByNameAndVersion("user_competency", version).map {
             _ match {
                 case Some(network) => {
                     multiLayerNetwork = Some(ModelSerializer.restoreMultiLayerNetwork(new File(network.path)))

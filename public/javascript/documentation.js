@@ -64,16 +64,16 @@ angular.module('documentation', []).controller('documentationController', ['$sco
     }, {
         verb: 'POST',
         path: '/user-competency',
-        description: 'Creates a new user competency in the database and return its rate',
+        description: 'Creates a new user competency in the database',
         returns: 'text/plain',
-        payload: "{\n\tproject_id: 1,\n\tuser_id: 1,\n\tcompetencies: [0, 1, 2, 3]\n}",
+        payload: "{\n\tproject_id: 1,\n\tuser_id: 1,\n\tcompetencies: [0, 1, 2, 3],\n\tscore: '0'\n}",
         implemented: true
     }, {
         verb: 'PUT',
         path: '/user-competency',
-        description: 'Updates an existing user competency in the database and returns its new rate',
+        description: 'Updates an existing user competency in the database',
         returns: 'text/plain',
-        payload: "{\n\tproject_id: 1,\n\tuser_id: 1,\n\tcompetencies: [3, 2, 1, 0]\n}",
+        payload: "{\n\tproject_id: 1,\n\tuser_id: 1,\n\tcompetencies: [3, 2, 1, 0]\n\tscore: '0'\n}",
         implemented: true
     }, {
         verb: 'GET',
@@ -90,6 +90,13 @@ angular.module('documentation', []).controller('documentationController', ['$sco
         json: "{}",
         implemented: true
     }, {
+        verb: 'POST',
+        path: '/user-competency/rate',
+        description: 'Rates a user',
+        returns: 'text/plain',
+        payload: "{}",
+        implemented: true
+    }, {
         verb: 'GET',
         path: '/user-competency/train',
         description: 'Trains the neural network with the user competencies in the database',
@@ -100,13 +107,13 @@ angular.module('documentation', []).controller('documentationController', ['$sco
         path: '/user-competency/load',
         description: 'Loads the most recent neural network',
         returns: 'text/plain',
-        implemented: false
+        implemented: true
     }, {
         verb: 'GET',
         path: '/user-competency/load/:version',
         description: 'Loads the neural network with version version',
         returns: 'text/plain',
-        implemented: false
+        implemented: true
     }];
     $scope.endpoints = doc;
     $scope.classes = function (verb) {

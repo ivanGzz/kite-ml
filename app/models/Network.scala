@@ -43,6 +43,10 @@ object Networks {
         networks.filter(x => x.name === name && x.version === version).result.headOption
     )
 
+    def getLatestNetworkByName(name: String): Future[Option[Network]] = dbConfig.db.run(
+        networks.filter(_.name === name).sortBy(_.version.desc).result.headOption
+    )
+
     def addToNetworks(network: Network): Future[Long] = dbConfig.db.run(
         networks += network
     ).map(

@@ -15,7 +15,7 @@ GET     /user-competency/random         controllers.UserCompetencyController.ran
 POST    /user-competency/rate           controllers.UserCompetencyController.rate
 GET     /user-competency/train          controllers.UserCompetencyController.train
 GET     /user-competency/load           controllers.UserCompetencyController.latest
-GET     /user-competency/load/:version  controllers.UserCompetencyController.load(version: Long)
+GET     /user-competency/load/:version  controllers.UserCompetencyController.load(version: Int)
 GET     /user-competency/:userid        controllers.UserCompetencyController.user(userid: Long)
 
 GET     /assets/*file                   controllers.Assets.at(path="/public", file)

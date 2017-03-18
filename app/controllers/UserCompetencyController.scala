@@ -3,7 +3,7 @@ package controllers
 import java.sql.Date
 
 import learning.UserCompetencyNet
-import models.{UserCompetencies, AuditLogs, UserCompetency}
+import models.{Networks, UserCompetencies, AuditLogs, UserCompetency}
 import play.api.libs.json.{JsError, JsSuccess, Json}
 import play.api.mvc.{Action, Controller}
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -20,7 +20,8 @@ object UserCompetencyController extends Controller {
 
     implicit val RateRequestRead = Json.reads[RateRequest]
     implicit val UserCompetencyRequestRead = Json.reads[UserCompetencyRequest]
-    implicit val UserCompetencyWrite = Json.writes[UserCompetency]
+    implicit val UserCompetencyModelWrite = Json.writes[UserCompetency]
+    implicit val UserCompetencyWrite = Json.writes[UserCompetencyRequest]
 
     val rand = new Random()
 
@@ -40,7 +41,7 @@ object UserCompetencyController extends Controller {
                     val userCompetency = UserCompetency(0, postRequest.project_id, postRequest.user_id, postRequest.competencies.mkString(","), postRequest.score, new Date(today.getTime))
                     UserCompetencies.addToUserCompetencies(userCompetency)
                 }).map(res =>
-                    Ok(UserCompetencyNet.rate(postRequest.competencies).toString)
+                    Ok("Added")
                 )
             case JsError(errors) => Future(BadRequest)
         }
@@ -52,7 +53,7 @@ object UserCompetencyController extends Controller {
                 AuditLogs.addToLog(request.uri, "PUT", putRequest.toString).flatMap(res => {
                     UserCompetencies.updateUser(putRequest.project_id, putRequest.user_id, putRequest.competencies.mkString(","), putRequest.score)
                 }).map(res =>
-                    Ok(UserCompetencyNet.rate(putRequest.competencies).toString)
+                    Ok("Updated")
                 )
             case JsError(errors) => Future(BadRequest)
         }
@@ -63,17 +64,21 @@ object UserCompetencyController extends Controller {
     }
 
     def user(userid: Long) = Action.async {
-        UserCompetencies.getUser(userid).map( res =>
+        UserCompetencies.getUser(userid).map { res =>
             Ok(Json.toJson(res))
-        )
+        }
     }
 
-    def latest = Action {
-        Ok
+    def latest = Action.async {
+        UserCompetencyNet.load.map {
+            if (_) Ok else NotFound
+        }
     }
 
-    def load(version: Long) = Action {
-        Ok
+    def load(version: Int) = Action.async {
+        UserCompetencyNet.load(version).map {
+            if (_) Ok else NotFound
+        }
     }
 
     def random = Action.async {
@@ -82,7 +87,9 @@ object UserCompetencyController extends Controller {
             UserCompetencies.getUserByPosition(skip)
         }.map {
             _ match {
-                case Some(userCompetency) => Ok(Json.toJson(userCompetency))
+                case Some(uc) => {
+                    Ok(Json.toJson(UserCompetencyRequest(uc.project_id, uc.user_id, uc.competencies.split(",").map(_.toInt).toList, uc.score)))
+                }
                 case None => NotFound
             }
         }

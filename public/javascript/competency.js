@@ -1,25 +1,39 @@
 'use strict';
-angular.module('competency', []).controller('competencyController', ['$scope', '$http', function ($scope, $http) {
+angular.module('competency', [])
+.directive('numericarray', [function () {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function (scope, element, attr, ngModel) {
+            function fromUser(text) {
+                return text.split(',').map(function (e) {
+                    return parseInt(e);
+                });
+            }
+            function toUser(array) {
+                return array.join(',');
+            }
+            ngModel.$parsers.push(fromUser);
+            ngModel.$formatters.push(toUser);
+        }
+    }
+}])
+.controller('competencyController', ['$scope', '$http', function ($scope, $http) {
     $scope.competency = {};
     $scope.competency.user_id = '';
     $scope.competency.project_id = '';
-    $scope.competency.competencies = '';
+    $scope.competency.competencies = [];
     $scope.competency.score = '';
     $scope.send = function (competency) {
         console.log(competency);
-        $http.post('/user-competency', {
-            'user_id': competency.user_id,
-            'project_id': competency.project_id,
-            'competencies': competency.split(','),
-            'score': competency.score
-        }).then(function (res) {
+        /*$http.post('/user-competency', competency).then(function (res) {
             $scope.competency.user_id = '';
             $scope.competency.project_id = '';
-            $scope.competency.competencies = '';
+            $scope.competency.competencies = [];
             $scope.competency.score = '';
         }, function (err) {
             console.log(err);
-        });
+        });*/
     };
     $scope.exists = false;
     $scope.review = {};
