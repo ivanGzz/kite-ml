@@ -41,6 +41,10 @@ object Sentences {
         sentences.length.result
     )
 
+    def getSentences(limit: Int): Future[Seq[Sentence]] = dbConfig.db.run(
+        sentences.take(limit).result
+    )
+
     def getSentenceByPosition(position: Int): Future[Option[Sentence]] = dbConfig.db.run(
         sentences.drop(position).take(1).result.headOption
     )
