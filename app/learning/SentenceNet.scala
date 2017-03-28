@@ -1,6 +1,15 @@
 package learning
 
-import models.Sentences
+import java.io.File
+import java.sql.Date
+
+import models.{Networks, Network, Sentences}
+import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer
+
+import org.deeplearning4j.models.word2vec.Word2Vec
+import org.deeplearning4j.text.sentenceiterator.{SentencePreProcessor, CollectionSentenceIterator}
+import org.deeplearning4j.text.tokenization.tokenizer.preprocessor.CommonPreprocessor
+import org.deeplearning4j.text.tokenization.tokenizerfactory.DefaultTokenizerFactory
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -10,6 +19,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
  */
 object SentenceNet {
 
+    val pathToSave = "public/files/network-"
+
     def train: Future[Boolean] = {
         Sentences.getSentencesCount.flatMap { res =>
             if (res <= 1000) {
@@ -18,8 +29,29 @@ object SentenceNet {
                 val entries = res - res % 1000
                 Sentences.getSentences(entries)
             }
+        }.flatMap { res =>
+            val iterator = new CollectionSentenceIterator(scala.collection.JavaConversions.seqAsJavaList(res.map(_.content)))
+            iterator.setPreProcessor(new SentencePreProcessor {
+                override def preProcess(s: String): String = s.toLowerCase
+            })
+            val tokenizer = new DefaultTokenizerFactory()
+            tokenizer.setTokenPreProcessor(new CommonPreprocessor())
+            val vec = new Word2Vec.Builder()
+              .minWordFrequency(5)
+              .iterations(1)
+              .layerSize(100)
+              .seed(42)
+              .windowSize(5)
+              .iterate(iterator)
+              .tokenizerFactory(tokenizer)
+              .build()
+            vec.fit()
+            val today = new java.util.Date()
+            val file = new File(pathToSave + today.getTime + ".zip")
+            WordVectorSerializer.writeWord2VecModel(vec, file)
+            val network = Network(0L, "word_vector", "/assets/files/" + file.getName, 1, new Date(today.getTime))
+            Networks.addToNetworks(network)
         }.map { res =>
-
             true
         }.recover {
             case e => {
