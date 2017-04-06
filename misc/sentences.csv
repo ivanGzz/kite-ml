@@ -1,21 +1,148 @@
-question,common-grounds,sentence-en,sentence-es
-1,1,How can we improve the performance?,¿Cómo podemos mejorar el desempeño?
-0,0,I like potatoes,Me gustan las papas
-1,0,What is your name?,¿Cuál es tu nombre?
-1,0,How old are you?,¿Qué tan grande eres?
-1,1,What if we try these settings?,¿Qué tal si probamos estas configuraciones?
-1,1,How about this algorithm?,¿Qué tal este algoritmo?
-1,1,What do you think if the number is positive?,¿Qué piensan si el número es positivo?
-1,1,What do you think if we set the number to zero?,¿Cómo ven si ponemos el número en cero?
-1,1,How do you see if you run the experiment?,¿Cómo verían si corrieran el experimento?
-1,1,What are your thoughts on this?,¿Qué opinan acerca de esto?
-1,1,Why not implement the formula?,¿Por qué no implementar la fórmula?
-0,1,I suggest to research the topic before the experiment,Sugiero investigar acerca del tema antes del experimento
-0,1,I believe we should ask the teacher this question,Creo que deberíamos preguntar al profesor esta pregunta
-0,1,I recommend to divide the set in two halves,Recomiendo dividir el conjunto en dos mitades
-1,1,How would you see if the book is written in Spanish?,¿Qué les parecería si el libro estuviera escrito en español?
-0,0,Let’s run the experiment,Vamos a correr el experimento
-0,0,Hey you!,¡Hey tú!
-1,1,What should we do next?,¿Qué deberíamos hacer a continuación?
-0,0,My name is John,Mi nombre es Juan
-0,0,I am twelve years old,Tengo doce años
+question,common-grounds,sentiment,sentence-en,sentence-es
+1,1,0,How can we improve the performance?,¿Cómo podemos mejorar el desempeño?
+0,0,0,I like potatoes,Me gustan las papas
+1,0,0,What is your name?,¿Cuál es tu nombre?
+1,0,0,How old are you?,¿Qué tan grande eres?
+1,1,0,What if we try these settings?,¿Qué tal si probamos estas configuraciones?
+1,1,0,How about this algorithm?,¿Qué tal este algoritmo?
+1,1,0,What do you think if the number is positive?,¿Qué piensan si el número es positivo?
+1,1,0,What do you think if we set the number to zero?,¿Cómo ven si ponemos el número en cero?
+1,1,0,How do you see if you run the experiment?,¿Cómo verían si corrieran el experimento?
+1,1,0,What are your thoughts on this?,¿Qué opinan acerca de esto?
+1,1,0,Why not implement the formula?,¿Por qué no implementar la fórmula?
+0,1,0,I suggest to research the topic before the experiment,Sugiero investigar acerca del tema antes del experimento
+0,1,0,I believe we should ask the teacher this question,Creo que deberíamos preguntar al profesor esta pregunta
+0,1,0,I recommend to divide the set in two halves,Recomiendo dividir el conjunto en dos mitades
+1,1,0,How would you see if the book is written in Spanish?,¿Qué les parecería si el libro estuviera escrito en español?
+0,0,0,Let’s run the experiment,Vamos a correr el experimento
+0,0,0,Hey you!,¡Hey tú!
+1,1,0,What should we do next?,¿Qué deberíamos hacer a continuación?
+0,0,0,My name is John,Mi nombre es Juan
+0,0,0,I am twelve years old,Tengo doce años
+,,,When I was little I had a car door slammed shut on my hand,
+,,,I still remember it quite vividly,
+,,,Rock music approaches at high velocity,
+,,,The memory we used to share is no longer coherent,
+,,,The clock within this blog and the clock on my laptop are 1 hour different from each other,
+,,,Check back tomorrow,
+,,,I will see if the book has arrived,
+,,,"If Purple People Eaters are real, where do they find purple people to eat?",
+,,,I love eating toasted cheese and tuna sandwiches,
+,,,The lake is a long way from here,
+,,,Where do random thoughts come from?,
+,,,She works two jobs to make ends meet,
+,,,That was the reason for not having time to join use,
+,,,This is a Japanese doll,
+,,,This is the last random sentence I will be writing and I am going to stop mid-sent,
+,,,Sixty-Four comes asking for bread,
+,,,Hurry!,
+,,,There were white out conditions in the town,
+,,,The roads were impassable,
+,,,She was too short to see over the fence,
+,,,Two seats were vacant,
+,,,She did her best to help him,
+,,,The waves were crashing on the shore,
+,,,It was a lovely sight,
+,,,Italy is my favorite country,
+,,,I plan to spend two weeks there next year,
+,,,The mysterious diary records the voice,
+,,,Tom got a small piece of pie,
+,,,Mary plays the piano,
+,,,I want to buy a onesie,
+,,,I know it won’t suit me,
+,,,The sky is clear,
+,,,The stars are twinkling,
+,,,Joe made the sugar cookies,
+,,,Susan decorated them,
+,,,I think it’s a good environment for learning English,
+,,,I really want to go to work,
+,,,I am too sick to drive,
+,,,I am never at home on Sundays,
+,,,She only paints with bold colors,
+,,,She does not like pastels,
+,,,Christmas is coming,
+,,,She folded her handkerchief neatly,
+,,,They got there early,
+,,,They got really good seats,
+,,,Let me help you with your baggage,
+,,,The quick brown fox jumps over the lazy dog,
+,,,I was very proud of my nickname throughout high school,
+,,,I couldn’t be any different to what my nickname was,
+,,,A glittering gem is not enough,
+,,,My Mum tries to be cool by saying that she likes all the same things that I do,
+,,,The book is in front of the table,
+,,,He turned in the research paper on Friday,
+,,,He would have not passed the class,
+,,,Sometimes all you need to do is completely make an ass of yourself,
+,,,Everyone was busy,
+,,,I went to the movie alone,
+,,,"If I don’t like something, I’ll stay away from it",
+,,,I hear that Nancy is very pretty,
+,,,I currently have 4 windows open up,
+,,,I don’t know why,
+,,,The body may perhaps compensates for the loss of a true metaphysics,
+,,,The shooter says goodbye to his love,
+,,,He told us a very exciting adventure story,
+,,,Someone I know recently combined Syrup and buttered popcorn thinking it would taste like caramel popcorn,
+,,,It didn’t and they don’t recommend anyone else do it either,
+,,,I want more detailed information,
+,,,We have a lot of rain in June,
+,,,"If you like tuna and tomato sauce, try combining the two",
+,,,It’s really not as bad as it sounds,
+,,,I will never be this young again,
+,,,I just got older,
+,,,Malls are great places to shop,
+,,,I can find everything I need under one roof,
+,,,He didn’t want to go to the dentist,
+,,,Yet he went anyway,
+,,,I am happy to take your donation,
+,,,Any amount will be greatly appreciated,
+,,,There was no ice cream in the freezer,
+,,,They did not have money to go to the store,
+,,,What was the person thinking when they discovered cow’s milk was fine for human consumption?,
+,,,She did not cheat on the test,
+,,,It was not the right thing to do,
+,,,Should we start class now?,
+,,,Should we wait for everyone to get here?,
+,,,Lets all be unique together until we realize we are all the same,
+,,,How was the math test?,
+,,,The river stole the gods,
+,,,Cats are good pets,
+,,,They are clean and are not noisy,
+,,,Please wait outside of the house,
+,,,She wrote him a long letter,
+,,,He didn’t read it,
+,,,The stranger officiates the meal,
+,,,He ran out of money,
+,,,He had to stop playing poker,
+,,,Does that work?,
+,,,Abstraction is often one floor above you,
+,,,I’d rather be a bird than a fish,
+,,,don’t step on the broken glass,
+,,,"We have never been to Asia, nor have we visited Africa",
+,,,"It was getting dark, and we weren’t there yet",
+,,,The old apple revels in its authority,
+,,,She advised him to come back at one,
+,,,Is it free?,
+,,,A purple pig and a green donkey flew a kite in the middle of the night and ended up sunburnt,
+,,,Writing a list of random sentences is harder that I initially thought it would be,
+,,,I would have gotten the promotion,
+,,,My attendance wasn’t good enough,
+,,,Sometimes it is better to just walk away from things and go back to them later when you’re in a better frame of mind,
+,,,He said he was not there yesterday,
+,,,Many people saw him there,
+,,,If the Easter Bunny and the Tooth Fairy had babies would they take your teeth and leave chocolate for you?,
+,,,A song can make or ruin a person’s day if they let it get to them,
+,,,I think I will buy the red car,
+,,,I will lease the blue one,
+,,,She always speaks to him in a loud voice,
+,,,I checked to make sure that he was still alive,
+,,,Wednesday in hump day,
+,,,Has anyone asked the camel if he’s happy about it?,
+,,,She borrowed the book from him many years ago,
+,,,He hasn’t yet returned it,
+,,,I am counting my calories,
+,,,I really want dessert,
+,,,Last Friday in three week’s time I saw a spotted striped blue worm shake hands with a legless lizard,
+,,,We need to rent a room for our party,
+,,,I often see the time 11:11 or 12:34 on clocks,

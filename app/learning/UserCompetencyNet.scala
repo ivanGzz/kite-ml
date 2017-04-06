@@ -18,6 +18,7 @@ import org.deeplearning4j.nn.multilayer.MultiLayerNetwork
 import org.deeplearning4j.nn.weights.WeightInit
 import org.deeplearning4j.optimize.listeners.ScoreIterationListener
 import org.deeplearning4j.util.ModelSerializer
+import org.nd4j.linalg.cpu.nativecpu.NDArray
 
 import org.nd4j.linalg.lossfunctions.LossFunctions.LossFunction
 
@@ -35,7 +36,7 @@ object UserCompetencyNet {
     val outputs = 4
     val hiddens = 20
     val rngSeed = 123
-    val pathToSave = "public/files/network-"
+    val pathToSave = "public/files/user-competency-"
 
     def train: Future[Boolean] = {
         UserCompetencies.getUserCompetenciesCount.flatMap { res =>
@@ -143,12 +144,22 @@ object UserCompetencyNet {
     }
 
     def rate(competencies: List[Int]): String = {
-        val sum = competencies.sum
-        sum match {
-            case x if x > 9 => "A"
-            case x if x > 6 => "B"
-            case x if x > 3 => "C"
-            case _ => "D"
+        multiLayerNetwork match {
+            case Some(model) => {
+                val ndarray = competencies.map(_.toFloat).toArray
+                val output = model.output(new NDArray(ndarray))
+                println(output)
+                "A"
+            }
+            case None => {
+                val sum = competencies.sum
+                sum match {
+                    case x if x > 9 => "A"
+                    case x if x > 6 => "B"
+                    case x if x > 3 => "C"
+                    case _ => "D"
+                }
+            }
         }
     }
 
