@@ -104,8 +104,7 @@ object SentenceController extends Controller {
     def upload = Action(parse.multipartFormData) { request =>
         request.body.file("sentences").map { sentences =>
             import java.io.File
-            val filename = sentences.filename
-            val file = sentences.ref.moveTo(new File(s"/tmp/files/$filename"))
+            val file = sentences.ref.moveTo(new File("public/files/" + sentences.filename))
             for (line <- Source.fromFile(file).getLines()) {
                 println(line)
             }
