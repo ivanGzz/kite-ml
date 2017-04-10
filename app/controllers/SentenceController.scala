@@ -10,6 +10,7 @@ import play.api.libs.json.{JsError, JsSuccess, Json}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.io.Source
 import scala.util.Random
 
 /**
@@ -97,6 +98,20 @@ object SentenceController extends Controller {
                 Ok(Json.toJson(response))
             }
             case JsError(errors) => BadRequest
+        }
+    }
+
+    def upload = Action(parse.multipartFormData) { request =>
+        request.body.file("sentences").map { sentences =>
+            import java.io.File
+            val filename = sentences.filename
+            val file = sentences.ref.moveTo(new File(s"/tmp/files/$filename"))
+            for (line <- Source.fromFile(file).getLines()) {
+                println(line)
+            }
+            Redirect(routes.Assets.at("/public/html", "sentence.html"))
+        }.getOrElse {
+            BadRequest("Bad request")
         }
     }
 

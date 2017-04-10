@@ -7,6 +7,7 @@ GET     /sentence/random                controllers.SentenceController.random
 POST    /sentence/common-ground         controllers.SentenceController.commonGround
 GET     /sentence/train                 controllers.SentenceController.train
 POST    /sentence/text                  controllers.SentenceController.text
+POST    /sentence/upload                controllers.SentenceController.upload
 
 GET     /user-competency                controllers.Assets.at(path="/public/html", file="competency.html")
 POST    /user-competency                controllers.UserCompetencyController.post
