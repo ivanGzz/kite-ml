@@ -15,6 +15,12 @@ import slick.driver.PostgresDriver.api._
 
 case class UserCompetency(id: Long, project_id: Long, user_id: Long, competencies: String, score: String, created: Date) {
 
+    def toList(competencyList: List[Int]): java.util.List[String] = {
+        val list = competencies.split(",").toList
+        val comp = for (i <- competencyList) yield list(i)
+        scala.collection.JavaConversions.seqAsJavaList(score :: comp)
+    }
+
     def toList: java.util.List[String] = {
         scala.collection.JavaConversions.seqAsJavaList(score :: competencies.split(",").toList)
     }
