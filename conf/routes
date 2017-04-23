@@ -1,5 +1,8 @@
 GET     /				                controllers.Assets.at(path="/public/html", file="documentation.html")
 
+GET     /project/:projectid             controllers.ProjectController.get(projectid: Long)
+POST    /project                        controllers.ProjectController.create
+
 GET     /sentence                       controllers.Assets.at(path="/public/html", file="sentence.html")
 POST    /sentence                       controllers.SentenceController.post
 PUT     /sentence                       controllers.SentenceController.put

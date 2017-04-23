@@ -19,8 +19,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
  */
 object SentenceNet {
 
-    val pathToSaveW2V = "public/files/word-vec-"
-    val pathToSaveNet = "public/files/sentences-"
+    val pathToSaveW2V = "public/files/word-vec"
+    val pathToSaveNet = "public/files/"
 
     var word2vec: Option[Word2Vec] = None
 
@@ -51,9 +51,9 @@ object SentenceNet {
             vec.fit()
             word2vec = Some(vec)
             val today = new java.util.Date()
-            val file = new File(pathToSaveW2V + today.getTime + ".zip")
+            val file = new File(s"$pathToSaveW2V-${today.getTime}.zip")
             WordVectorSerializer.writeWord2VecModel(vec, file)
-            val network = Network(0L, "word_vector", "/assets/files/" + file.getName, 1, new Date(today.getTime))
+            val network = Network(0L, "word_vector", s"/assets/files/${file.getName}", 1, new Date(today.getTime), s"/public/files/${file.getName}", "", -1)
             Networks.addToNetworks(network).map { r =>
                 res
             }

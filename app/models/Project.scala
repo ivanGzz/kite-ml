@@ -33,6 +33,10 @@ object Projects {
 
     val projects = TableQuery[ProjectTableDef]
 
+    def getProjects: Future[Seq[Project]] = dbConfig.db.run(
+        projects.result
+    )
+
     def getProjectById(id: Long): Future[Option[Project]] = dbConfig.db.run(
         projects.filter(_.id === id).result.headOption
     )

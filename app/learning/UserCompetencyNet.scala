@@ -38,17 +38,7 @@ object UserCompetencyNet {
     val rngSeed = 123
     val pathToSave = "public/files/user-competency"
 
-    private def trainNetwork(userCompetenciesSeq: Seq[UserCompetency], project: Project) = Future {
-        val train = userCompetenciesSeq.size * 80 / 100
-        val indexes = project.competencies.split(",").toList.map(_.toInt)
-        val userCompetencies = scala.collection.JavaConversions.seqAsJavaList(userCompetenciesSeq.take(train).map(_.toList(indexes)))
-        val userCompetenciesTest = scala.collection.JavaConversions.seqAsJavaList(userCompetenciesSeq.drop(train).map(_.toList(indexes)))
-        val rr = new ListStringRecordReader()
-        rr.initialize(new ListStringSplit(userCompetencies))
-        val iterator = new RecordReaderDataSetIterator(rr, batchSize, 0, indexes.size)
-        val rrTest = new ListStringRecordReader()
-        rrTest.initialize(new ListStringSplit(userCompetenciesTest))
-        val iteratorTest = new RecordReaderDataSetIterator(rrTest, batchSize, 0, indexes.size)
+    private def getConfiguration = {
         val conf = new Builder()
         conf.seed(rngSeed)
         conf.optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
@@ -71,7 +61,21 @@ object UserCompetencyNet {
         list.layer(1, outputLayer.build())
         list.pretrain(false)
         list.backprop(true)
-        val configuration = list.build()
+        list.build()
+    }
+
+    private def trainNetwork(userCompetenciesSeq: Seq[UserCompetency], project: Project) = Future {
+        val train = userCompetenciesSeq.size * 80 / 100
+        val indexes = project.competencies.split(",").toList.map(_.toInt)
+        val userCompetencies = scala.collection.JavaConversions.seqAsJavaList(userCompetenciesSeq.take(train).map(_.toList(indexes)))
+        val userCompetenciesTest = scala.collection.JavaConversions.seqAsJavaList(userCompetenciesSeq.drop(train).map(_.toList(indexes)))
+        val rr = new ListStringRecordReader()
+        rr.initialize(new ListStringSplit(userCompetencies))
+        val iterator = new RecordReaderDataSetIterator(rr, batchSize, 0, indexes.size)
+        val rrTest = new ListStringRecordReader()
+        rrTest.initialize(new ListStringSplit(userCompetenciesTest))
+        val iteratorTest = new RecordReaderDataSetIterator(rrTest, batchSize, 0, indexes.size)
+        val configuration = getConfiguration
         val model = new MultiLayerNetwork(configuration)
         model.init()
         model.setListeners(new ScoreIterationListener(1))
@@ -86,22 +90,32 @@ object UserCompetencyNet {
             eval.eval(next.getLabels, output)
         }
         val today = new java.util.Date()
-        val file = new File(s"$pathToSave-${today.getTime}.zip")
+        val file = new File(s"$pathToSave-${project.id}-${today.getTime}.zip")
         val outputStream = new FileOutputStream(file)
         ModelSerializer.writeModel(model, outputStream, false)
-        val network = Network(0L, "user_competency", s"/assets/files/${file.getName}", 1, new Date(today.getTime), s"/public/files/${file.getName}", eval.stats)
+        val network = Network(0L, "user_competency", s"/assets/files/${file.getName}", 1, new Date(today.getTime), s"/public/files/${file.getName}", eval.stats, project.id)
         Networks.addToNetworksVersioned(network)
     }
 
     def train: Future[Boolean] = {
-        UserCompetencies.getUserCompetenciesCount.flatMap { res =>
+        Projects.getProjects.flatMap { projects =>
+            if (projects.nonEmpty) {
+                UserCompetencies.getUserCompetenciesCount.map {res =>
+                    (projects, res)
+                }
+            } else {
+                throw new Exception
+            }
+        }.flatMap { case (project, res) =>
             if (res <= 1000) {
-                throw new Exception()
+                throw new Exception
             } else {
                 val entries = res - res % 1000
-                UserCompetencies.getUserCompetencies(entries)
+                UserCompetencies.getUserCompetencies(entries).map { userCompetencies =>
+                    (project, userCompetencies)
+                }
             }
-        }.flatMap { res =>
+        }.flatMap { case (projects, res) =>
             trainNetwork(res, Project(0, "0,1,2,3", new Date(0)))
         }.map(res =>
             true
@@ -129,14 +143,12 @@ object UserCompetencyNet {
 
     def load(version: Int): Future[Boolean] = {
         Networks.getNetworkByNameAndVersion("user_competency", version).map {
-            _ match {
-                case Some(network) => {
-                    multiLayerNetwork = Some(ModelSerializer.restoreMultiLayerNetwork(new File(network.path)))
-                    true
-                }
-                case None => {
-                    false
-                }
+            case Some(network) => {
+                multiLayerNetwork = Some(ModelSerializer.restoreMultiLayerNetwork(new File(network.path)))
+                true
+            }
+            case None => {
+                false
             }
         }
     }

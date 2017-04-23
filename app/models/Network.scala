@@ -15,7 +15,7 @@ import slick.driver.PostgresDriver.api._
  * Created by nigonzalez on 2/26/17.
  */
 
-case class Network(id: Long, name: String, path: String, version: Int, created: Date, filepath: String, result: String)
+case class Network(id: Long, name: String, path: String, version: Int, created: Date, filepath: String, result: String, project: Long)
 
 class NetworkTableDef(tag: Tag) extends Table[Network](tag, "network") {
 
@@ -26,8 +26,9 @@ class NetworkTableDef(tag: Tag) extends Table[Network](tag, "network") {
     def created = column[Date]("created")
     def filepath = column[String]("filepath")
     def result = column[String]("result")
+    def project = column[Long]("project")
 
-    override def * = (id, name, path, version, created, filepath, result) <> (Network.tupled, Network.unapply)
+    override def * = (id, name, path, version, created, filepath, result, project) <> (Network.tupled, Network.unapply)
 
 }
 
@@ -60,7 +61,7 @@ object Networks {
     ).flatMap {
         _ match {
             case Some(n) =>
-                addToNetworks(Network(0, network.name, network.path, n.version + 1, network.created, network.filepath, network.result))
+                addToNetworks(Network(0, network.name, network.path, n.version + 1, network.created, network.filepath, network.result, network.project))
             case None =>
                 addToNetworks(network)
         }
