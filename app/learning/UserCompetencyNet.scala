@@ -82,7 +82,6 @@ object UserCompetencyNet {
         for (i <- 0 until epochs) {
             model.fit(iterator)
         }
-        multiLayerNetwork = Some(model)
         val eval = new Evaluation(outputs)
         while (iteratorTest.hasNext) {
             val next = iteratorTest.next()
@@ -116,7 +115,7 @@ object UserCompetencyNet {
                 }
             }
         }.flatMap { case (projects, res) =>
-            trainNetwork(res, Project(0, "0,1,2,3", new Date(0)))
+            Future.sequence(projects.map(trainNetwork(res, _)))
         }.map(res =>
             true
         ).recover {

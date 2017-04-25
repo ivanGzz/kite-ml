@@ -3,7 +3,7 @@ package learning
 import java.io.File
 import java.sql.Date
 
-import models.{Networks, Network, Sentences}
+import models.{Sentence, Networks, Network, Sentences}
 import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer
 
 import org.deeplearning4j.models.word2vec.Word2Vec
@@ -20,9 +20,42 @@ import scala.concurrent.ExecutionContext.Implicits.global
 object SentenceNet {
 
     val pathToSaveW2V = "public/files/word-vec"
-    val pathToSaveNet = "public/files/"
+    val pathToSaveNet = "public/files/feature"
 
-    var word2vec: Option[Word2Vec] = None
+    def trainCommonGround(word2Vec: Word2Vec, res: Seq[Sentence]) = Future {
+
+    }
+
+    def trainSentiment(word2Vec: Word2Vec, res: Seq[Sentence]) = Future {
+
+    }
+
+    def trainWord2Vec(res: Seq[Sentence]) = Future {
+        val iterator = new CollectionSentenceIterator(scala.collection.JavaConversions.seqAsJavaList(res.map(_.content)))
+        iterator.setPreProcessor(new SentencePreProcessor {
+            override def preProcess(s: String): String = s.toLowerCase
+        })
+        val tokenizer = new DefaultTokenizerFactory()
+        tokenizer.setTokenPreProcessor(new CommonPreprocessor())
+        val vec = new Word2Vec.Builder()
+          .minWordFrequency(5)
+          .iterations(1)
+          .layerSize(100)
+          .seed(42)
+          .windowSize(5)
+          .iterate(iterator)
+          .tokenizerFactory(tokenizer)
+          .build()
+        vec.fit()
+        val word2vec = Some(vec)
+        val today = new java.util.Date()
+        val file = new File(s"$pathToSaveW2V-${today.getTime}.zip")
+        WordVectorSerializer.writeWord2VecModel(vec, file)
+        val network = Network(0L, "word_vector", s"/assets/files/${file.getName}", 1, new Date(today.getTime), s"/public/files/${file.getName}", "", -1)
+        Networks.addToNetworks(network).map { r =>
+            (word2vec, res)
+        }
+    }
 
     def train: Future[Boolean] = {
         Sentences.getSentencesCount.flatMap { res =>
@@ -33,32 +66,15 @@ object SentenceNet {
                 Sentences.getSentences(entries)
             }
         }.flatMap { res =>
-            val iterator = new CollectionSentenceIterator(scala.collection.JavaConversions.seqAsJavaList(res.map(_.content)))
-            iterator.setPreProcessor(new SentencePreProcessor {
-                override def preProcess(s: String): String = s.toLowerCase
-            })
-            val tokenizer = new DefaultTokenizerFactory()
-            tokenizer.setTokenPreProcessor(new CommonPreprocessor())
-            val vec = new Word2Vec.Builder()
-              .minWordFrequency(5)
-              .iterations(1)
-              .layerSize(100)
-              .seed(42)
-              .windowSize(5)
-              .iterate(iterator)
-              .tokenizerFactory(tokenizer)
-              .build()
-            vec.fit()
-            word2vec = Some(vec)
-            val today = new java.util.Date()
-            val file = new File(s"$pathToSaveW2V-${today.getTime}.zip")
-            WordVectorSerializer.writeWord2VecModel(vec, file)
-            val network = Network(0L, "word_vector", s"/assets/files/${file.getName}", 1, new Date(today.getTime), s"/public/files/${file.getName}", "", -1)
-            Networks.addToNetworks(network).map { r =>
-                res
+            trainWord2Vec(res)
+        }.flatMap { case (word2vec, res) =>
+            val futures = List(
+                trainCommonGround(word2vec, res),
+                trainSentiment(word2vec, res)
+            )
+            Future.sequence(futures).map { res =>
+                true
             }
-        }.map { res =>
-            true
         }.recover {
             case e => {
                 e.printStackTrace()

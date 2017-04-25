@@ -17,11 +17,10 @@ import scala.collection.convert.wrapAll._
 /**
  * Created by nigonzalez on 4/3/17.
  */
-class SentenceIterator(sentences: List[Sentence], wordVectors: WordVectors, batchSize: Int, maxSize: Int) extends DataSetIterator {
+class SentenceIterator(sentences: List[Sentence], wordVectors: WordVectors, batchSize: Int, maxSize: Int, outputs: Array[String], feature: Int => Int) extends DataSetIterator {
 
     var position = 0
     val vectorSize = wordVectors.getWordVector(wordVectors.vocab().wordAtIndex(0)).length
-    val outputs = Array("yes", "no")
     val tokenizerFactory = new DefaultTokenizerFactory
     tokenizerFactory.setTokenPreProcessor(new CommonPreprocessor)
 
@@ -45,7 +44,7 @@ class SentenceIterator(sentences: List[Sentence], wordVectors: WordVectors, batc
                 features.put(Array(NDArrayIndex.point(i), NDArrayIndex.all, NDArrayIndex.point(j)), vector)
                 featuresMask.putScalar(Array(i, j), 1.0)
             }
-            val idx = if (set(i).common_ground) 0 else 1
+            val idx = feature(i)
             val lastIdx = if (list.length < max) list.length else max
             labels.putScalar(Array(i, idx, lastIdx - 1), 1.0)
             labelsMask.putScalar(Array(i, lastIdx - 1), 1.0)
